@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+ database:
+    image: postgres:13.2-alpine
+    restart: always
+    environment:
+     POSTGRES_USER: ${POSTGRESQL_USERNAME}
+     POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
+     POSTGRES_DB: ${POSTGRESQL_DATABASE}
+    volumes:
+      - pgdata:/data/postgres
+    ports:
+      - ${POSTGRESQL_PORT}:5432
+
+ redis:
+  image: redis:alpine
+  ports:
+   - ${REDIS_PORT}:${REDIS_PORT}
+
+volumes:
+ pgdata:
+  driver: local
