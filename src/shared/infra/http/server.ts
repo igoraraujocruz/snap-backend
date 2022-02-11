@@ -11,9 +11,11 @@ import cors from 'cors';
 
 const app = express();
 app.use(express.json());
-app.use(cors({
-    origin: process.env.WEB_URL
-}))
+app.use(
+    cors({
+        origin: process.env.WEB_URL,
+    }),
+);
 app.use(routes);
 
 app.use((error: Error, _: Request, response: Response, __: NextFunction) => {

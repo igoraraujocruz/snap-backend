@@ -2,36 +2,48 @@ import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
 import authConfig from '@config/auth';
 import { AppError } from '@shared/errors/AppError';
+import { UsersTokensRepository } from '../../typeorm/repositories/UsersTokenRepository';
 
-interface ITokenPayLoad {
-  iat: number;
-  exp: number;
-  sub: string;
+interface IPayload {
+    sub: string;
 }
 
-export function ensureAuthenticated(
-  request: Request,
-  _: Response,
-  next: NextFunction,
-): void {
-  const authHeader = request.headers.authorization;
+export async function ensureAuthenticated(
+    request: Request,
+    _: Response,
+    next: NextFunction,
+): Promise<void> {
+    const authHeader = request.headers.authorization;
 
-  if (!authHeader) {
-    throw new AppError('JWT token is missing', 401);
-  }
+    const usersTokensRepository = new UsersTokensRepository();
 
-  const [, token] = authHeader.split(' ');
+    if (!authHeader) {
+        throw new AppError('JWT token is missing', 401);
+    }
 
-  try {
-    const decode = verify(token, authConfig.jwt.secret);
+    const [, token] = authHeader.split(' ');
 
-    const { sub } = decode as ITokenPayLoad;
+    try {
+        const { sub: userId } = verify(
+            token,
+            authConfig.jwt.refreshTokenSecret,
+        ) as IPayload;
 
-    request.user = {
-      id: sub,
-    };
-    return next();
-  } catch (err) {
-    throw new AppError('Invalid JWT token', 401);
-  }
+        const user = await usersTokensRepository.findByUserIdAndRefreshToken(
+            userId,
+            token,
+        );
+
+        if (!user) {
+            throw new AppError('User does not exists!', 401);
+        }
+
+        request.user = {
+            id: userId,
+        };
+
+        return next();
+    } catch (err) {
+        throw new AppError('Invalid JWT token', 401);
+    }
 }

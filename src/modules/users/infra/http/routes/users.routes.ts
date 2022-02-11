@@ -51,7 +51,6 @@ usersRouter.put(
 
 usersRouter.get(
     '/:id?',
-    ensureAuthenticated,
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.string().uuid(),

@@ -12,11 +12,11 @@ export class SessionsController {
 
         const authController = container.resolve(AuthenticateUserService);
 
-        const { user, token } = await authController.execute({
+        const { user, token, refreshToken } = await authController.execute({
             email,
             password,
         });
 
-        return response.json({ user: classToClass(user), token });
+        return response.json({ user: classToClass(user), token, refreshToken });
     }
 }

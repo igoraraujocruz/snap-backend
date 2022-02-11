@@ -3,9 +3,10 @@ import {
     Column,
     PrimaryGeneratedColumn,
     CreateDateColumn,
-    UpdateDateColumn,
-    Generated,
+    JoinColumn,
+    ManyToMany,
 } from 'typeorm';
+import { User } from './User';
 
 @Entity('usersTokens')
 export class UserToken {
@@ -13,15 +14,18 @@ export class UserToken {
     id: string;
 
     @Column()
-    @Generated('uuid')
-    token: string;
+    refreshToken: string;
 
     @Column()
     userId: string;
 
+    @ManyToMany(() => User)
+    @JoinColumn({ name: 'userId' })
+    user: User;
+
+    @Column()
+    expiresDate: Date;
+
     @CreateDateColumn()
     createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
 }
