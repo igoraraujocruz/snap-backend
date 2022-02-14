@@ -10,7 +10,7 @@ export class UsersTokensRepository implements IUsersTokensRepository {
         this.ormRepository = getRepository(UserToken);
     }
 
-    public async findByUserIdAndRefreshToken(
+    async findByUserIdAndRefreshToken(
         userId: string,
         refreshToken: string,
     ): Promise<UserToken | undefined> {

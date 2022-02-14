@@ -10,6 +10,11 @@ interface IPayload {
     email: string;
 }
 
+interface ITokenResponse {
+    token: string;
+    refreshToken: string;
+}
+
 @injectable()
 export class RefreshTokenService {
     constructor(
@@ -17,9 +22,9 @@ export class RefreshTokenService {
         private usersTokensRepository: IUsersTokensRepository,
     ) {}
 
-    public async execute(token: string): Promise<string> {
+    public async execute(newRefreshToken: string): Promise<ITokenResponse> {
         const { email, sub } = verify(
-            token,
+            newRefreshToken,
             auth.jwt.refreshTokenSecret,
         ) as IPayload;
 
@@ -28,7 +33,7 @@ export class RefreshTokenService {
         const userToken =
             await this.usersTokensRepository.findByUserIdAndRefreshToken(
                 userId,
-                token,
+                newRefreshToken,
             );
 
         if (!userToken) {
@@ -50,6 +55,14 @@ export class RefreshTokenService {
             expiresDate: date.toDate(),
         });
 
-        return refreshToken;
+        const newToken = sign({}, auth.jwt.secret, {
+            subject: userId,
+            expiresIn: auth.jwt.expiresIn,
+        });
+
+        return {
+            refreshToken,
+            token: newToken,
+        };
     }
 }

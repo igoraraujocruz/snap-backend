@@ -4,13 +4,13 @@ import { container } from 'tsyringe';
 
 export class RefreshTokenController {
     async handle(request: Request, response: Response): Promise<Response> {
-        const token =
-            request.body.token ||
+        const newRefreshToken =
+            request.body.refreshToken ||
             request.headers['x-access-token'] ||
-            request.query.token;
+            request.query.refreshToken;
 
         const refreshTokenService = container.resolve(RefreshTokenService);
-        const refreshToken = await refreshTokenService.execute(token);
+        const refreshToken = await refreshTokenService.execute(newRefreshToken);
 
         return response.json(refreshToken);
     }
