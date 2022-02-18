@@ -3,7 +3,10 @@ import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import BaseRepository from '@shared/infra/typeorm/repositories/BaseRepository';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 
-export class UsersRepository extends BaseRepository<User> implements IUsersRepository {
+export class UsersRepository
+    extends BaseRepository<User>
+    implements IUsersRepository
+{
     readonly ormRepository: Repository<User>;
 
     constructor() {
@@ -28,7 +31,9 @@ export class UsersRepository extends BaseRepository<User> implements IUsersRepos
         return item;
     }
 
-    public async findByMobilePhone(mobilePhone: string): Promise<User | undefined> {
+    public async findByMobilePhone(
+        mobilePhone: string,
+    ): Promise<User | undefined> {
         const item = this.ormRepository.findOne({
             where: { mobilePhone },
         });

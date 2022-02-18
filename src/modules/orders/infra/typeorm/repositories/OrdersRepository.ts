@@ -14,4 +14,15 @@ export class OrdersRepository
         super(repo);
         this.ormRepository = repo;
     }
+
+    public async filterOrders(option: string): Promise<Order[]> {
+        const orders = this.ormRepository
+            .createQueryBuilder('order')
+            .leftJoinAndSelect('order.requester', 'requester')
+            .where('LOWER(order.name) = LOWER(:option)', { option })
+            .orWhere('LOWER(requester.name) = LOWER(:option)', { option })
+            .getMany();
+
+        return orders;
+    }
 }

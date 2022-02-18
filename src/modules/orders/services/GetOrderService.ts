@@ -13,9 +13,22 @@ export class GetOrderService extends BaseService<Order> {
         super(ordersRepository);
     }
 
-    public async execute(id?: string): Promise<Order | Order[]> {
+    public async execute(
+        id?: string,
+        option?: string,
+    ): Promise<Order | Order[]> {
         if (id) {
             const order = await this.ordersRepository.findById(id);
+
+            if (!order) {
+                throw new AppError('Order not found');
+            }
+
+            return order;
+        }
+
+        if (option) {
+            const order = await this.ordersRepository.filterOrders(option);
 
             if (!order) {
                 throw new AppError('Order not found');

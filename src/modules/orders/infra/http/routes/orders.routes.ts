@@ -13,7 +13,10 @@ ordersRouter.post(
         [Segments.BODY]: {
             name: Joi.string().required(),
             description: Joi.string(),
-            contact: Joi.string().required(),
+            contact: Joi.string()
+                .length(11)
+                .pattern(/^[0-9]+$/)
+                .required(),
             client: Joi.string().required(),
         },
     }),
@@ -53,6 +56,9 @@ ordersRouter.get(
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.string().uuid(),
+        },
+        [Segments.QUERY]: {
+            option: Joi.string(),
         },
     }),
     ordersController.get,

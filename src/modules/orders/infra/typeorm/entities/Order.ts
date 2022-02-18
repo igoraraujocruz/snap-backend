@@ -26,9 +26,12 @@ export class Order {
     contact: string;
 
     @Column()
+    @Exclude()
     requesterId: string;
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, {
+        eager: true,
+    })
     @JoinColumn({ name: 'requesterId' })
     requester: User;
 

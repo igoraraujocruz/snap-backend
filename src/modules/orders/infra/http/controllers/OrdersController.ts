@@ -66,9 +66,13 @@ export class OrdersController {
 
     public async get(request: Request, response: Response): Promise<Response> {
         const { id } = request.params;
+        const { option } = request.query;
+
+        const filter = option?.toString();
+
         const findOrder = container.resolve(GetOrderService);
 
-        const order = await findOrder.execute(id);
+        const order = await findOrder.execute(id, filter);
 
         return response.json(classToClass(order));
     }
