@@ -1,25 +1,33 @@
 import 'reflect-metadata';
-import { CreateUserService } from '@modules/users/services/CreateUserService';
+import { RefreshTokenService } from '@modules/users/services/RefreshTokenService';
 import { AppError } from '@shared/errors/AppError';
 import { FakeUserRepository } from '../../../tests/unit/users/fakes/FakeUserRepository';
+import { FakeUserTokenRepository } from '../../../tests/unit/users/fakes/FakeUserTokenRepository';
 
-let createUserService: CreateUserService;
+let refreshTokenService: RefreshTokenService;
 let fakeUserRepository: FakeUserRepository;
+let fakeUserTokenRepository: FakeUserTokenRepository;
 
 describe('Create User', () => {
     beforeEach(() => {
+        fakeUserTokenRepository = new FakeUserTokenRepository();
         fakeUserRepository = new FakeUserRepository();
-        createUserService = new CreateUserService(fakeUserRepository);
+        refreshTokenService = new RefreshTokenService(
+            fakeUserTokenRepository,
+            fakeUserRepository,
+        );
     });
 
-    it('Sould be able to create a new User', async () => {
-        const user = await createUserService.execute({
+    it('Sould be able to authenticate User', async () => {
+        const user = await fakeUserRepository.create({
             name: 'John Doe',
             email: 'johndoe@example.com',
             password: '123456',
             mobilePhone: '995524565',
             username: 'johnjohn',
         });
+
+        const userToken = await refreshTokenService.execute();
 
         expect(user).toHaveProperty('id');
     });

@@ -3,9 +3,11 @@ import { AuthenticateUserService } from '@modules/users/services/AuthenticateUse
 import { AppError } from '@shared/errors/AppError';
 import { FakeHashProvider } from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 import { FakeUserRepository } from '../../../tests/unit/users/fakes/FakeUserRepository';
+import { FakeUserTokenRepository } from '../../../tests/unit/users/fakes/FakeUserTokenRepository';
 
 let authenticateUserService: AuthenticateUserService;
 let fakeUserRepository: FakeUserRepository;
+let fakeUserTokenRepository: FakeUserTokenRepository;
 let fakeHashProvider: FakeHashProvider;
 
 describe('Authenticate User', () => {
@@ -15,6 +17,7 @@ describe('Authenticate User', () => {
         authenticateUserService = new AuthenticateUserService(
             fakeUserRepository,
             fakeHashProvider,
+            fakeUserTokenRepository,
         );
     });
 
