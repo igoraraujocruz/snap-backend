@@ -5,13 +5,14 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     DeleteDateColumn,
-    OneToMany,
+    ManyToOne,
+    JoinColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { Product } from '@modules/products/infra/typeorm/entities/Product';
+import { User } from '@modules/users/infra/typeorm/entities/User';
 
-@Entity('users')
-export class User {
+@Entity('products')
+export class Product {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -19,20 +20,20 @@ export class User {
     name: string;
 
     @Column()
-    username: string;
+    images: string;
 
-    @OneToMany(() => Product, product => product.user)
-    products: Product[];
+    @Column()
+    points: number;
 
     @Column()
     @Exclude()
-    password: string;
+    userId: string;
 
-    @Column()
-    email: string;
-
-    @Column()
-    mobilePhone: string;
+    @ManyToOne(() => User, {
+        eager: true,
+    })
+    @JoinColumn({ name: 'userId' })
+    user: User;
 
     @CreateDateColumn()
     createdAt: Date;

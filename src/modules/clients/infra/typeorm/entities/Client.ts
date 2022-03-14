@@ -5,13 +5,11 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     DeleteDateColumn,
-    OneToMany,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { Product } from '@modules/products/infra/typeorm/entities/Product';
 
-@Entity('users')
-export class User {
+@Entity('clients')
+export class Client {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -19,20 +17,16 @@ export class User {
     name: string;
 
     @Column()
-    username: string;
-
-    @OneToMany(() => Product, product => product.user)
-    products: Product[];
-
-    @Column()
-    @Exclude()
-    password: string;
+    cpf: string;
 
     @Column()
     email: string;
 
     @Column()
     mobilePhone: string;
+
+    @Column()
+    birthday: Date;
 
     @CreateDateColumn()
     createdAt: Date;

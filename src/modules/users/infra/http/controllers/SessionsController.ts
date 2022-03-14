@@ -8,12 +8,12 @@ export class SessionsController {
         request: Request,
         response: Response,
     ): Promise<Response> {
-        const { email, password } = request.body;
+        const { username, password } = request.body;
 
         const authController = container.resolve(AuthenticateUserService);
 
         const { user, token, refreshToken } = await authController.execute({
-            email,
+            username,
             password,
         });
 

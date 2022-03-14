@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import { IUsersTokensRepository } from '../repositories/IUsersTokensRepository';
 
 interface IRequest {
-    email: string;
+    username: string;
     password: string;
 }
 
@@ -34,8 +34,8 @@ export class AuthenticateUserService {
         private usersTokensRepository: IUsersTokensRepository,
     ) {}
 
-    public async execute({ email, password }: IRequest): Promise<IResponse> {
-        const user = await this.usersRepository.findByEmail(email);
+    public async execute({ username, password }: IRequest): Promise<IResponse> {
+        const user = await this.usersRepository.findByUsername(username);
 
         if (!user) {
             throw new AppError('Incorrect email/password combination', 401);
@@ -58,7 +58,7 @@ export class AuthenticateUserService {
             expiresIn,
         });
 
-        const refreshToken = sign({ email }, refreshTokenSecret, {
+        const refreshToken = sign({ username }, refreshTokenSecret, {
             subject: user.id,
             expiresIn: expiresInRefreshToken,
         });
