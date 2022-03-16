@@ -4,16 +4,15 @@ import {
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
-    DeleteDateColumn,
     ManyToOne,
     JoinColumn,
 } from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
-import { User } from '@modules/users/infra/typeorm/entities/User';
 import uploadConfig from '@config/upload';
+import { Product } from './Product';
 
-@Entity('products')
-export class Product {
+@Entity('images')
+export class Image {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -21,32 +20,29 @@ export class Product {
     name: string;
 
     @Column()
-    images: string;
-
-    @Column()
-    points: number;
+    imageUrl: string;
 
     @Column()
     @Exclude()
-    userId: string;
+    productId: string;
 
-    @ManyToOne(() => User, {
+    @ManyToOne(() => Product, {
         eager: true,
     })
-    @JoinColumn({ name: 'userId' })
-    user: User;
+    @JoinColumn({ name: 'productId' })
+    product: Product;
 
     @Expose({ name: 'imageUrl' })
     getImagesUrl(): string | null {
-        if (!this.images) {
+        if (!this.imageUrl) {
             return null;
         }
 
         switch (uploadConfig.driver) {
             case 'disk':
-                return `${process.env.APP_API_URL}/files/${this.images}`;
+                return `${process.env.APP_API_URL}/files/${this.imageUrl}`;
             case 's3':
-                return `https://${uploadConfig.config.aws.bucket}.s3.amazonaws.com/${this.images}`;
+                return `https://${uploadConfig.config.aws.bucket}.s3.amazonaws.com/${this.imageUrl}`;
             default:
                 return null;
         }
@@ -57,8 +53,4 @@ export class Product {
 
     @UpdateDateColumn()
     updatedAt: Date;
-
-    @DeleteDateColumn()
-    @Exclude()
-    deletedAt?: Date;
 }

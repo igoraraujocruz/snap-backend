@@ -3,12 +3,15 @@ import { Product } from '@modules/products/infra/typeorm/entities/Product';
 import { IProductsRepository } from '@modules/products/repositories/IProductsRepository';
 import { CreateProductDTO } from '@modules/products/dtos/CreateProductDTO';
 import { AppError } from '@shared/errors/AppError';
+import { IStorageProvider } from '@shared/container/providers/StorageProvider/models/IStorageProviders';
 
 @injectable()
 export class CreateProductService {
     constructor(
         @inject('ProductsRepository')
         private productsRepository: IProductsRepository,
+        @inject('StorageProvider')
+        private storageProvider: IStorageProvider,
     ) {}
 
     public async execute({

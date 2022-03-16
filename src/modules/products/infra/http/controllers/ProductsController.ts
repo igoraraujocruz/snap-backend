@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 import { CreateProductService } from '@modules/products/services/CreateProductService';
 import { DeleteProductService } from '@modules/products/services/DeleteProductService';
 import { UpdateProductService } from '@modules/products/services/UpdateProductService';
+import { UpdateProductImageService } from '@modules/products/services/UpdateProductImageService';
 import { GetProductService } from '@modules/products/services/GetProductService';
 import { classToClass } from 'class-transformer';
 
@@ -11,13 +12,13 @@ export class ProductsController {
         request: Request,
         response: Response,
     ): Promise<Response> {
-        const { name, images, points } = request.body;
+        const { name, points } = request.body;
 
         const createProduct = container.resolve(CreateProductService);
 
         const product = await createProduct.execute({
             name,
-            images,
+            images: request.file?.filename,
             points,
             userId: request.user.id,
         });
@@ -67,6 +68,21 @@ export class ProductsController {
         const findProduct = container.resolve(GetProductService);
 
         const product = await findProduct.execute(id);
+
+        return response.json(classToClass(product));
+    }
+
+    public async updateImage(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
+        const { id } = request.params;
+        const updateProductImage = container.resolve(UpdateProductImageService);
+
+        const product = await updateProductImage.execute({
+            productId: id,
+            imageFilename: request.file?.filename,
+        });
 
         return response.json(classToClass(product));
     }

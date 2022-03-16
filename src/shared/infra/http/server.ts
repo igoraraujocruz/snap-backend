@@ -7,10 +7,12 @@ import '@shared/infra/typeorm';
 import { routes } from '@shared/infra/http/routes';
 import { AppError } from '@shared/errors/AppError';
 import { isCelebrateError } from 'celebrate';
+import uploadConfig from '@config/upload';
 import cors from 'cors';
 
 const app = express();
 app.use(express.json());
+app.use('/files', express.static(uploadConfig.uploadsFolder));
 app.use(
     cors({
         origin: process.env.WEB_URL,
