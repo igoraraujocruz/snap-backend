@@ -25,7 +25,7 @@ interface IUploadConfig {
 export default {
     driver: process.env.STORAGE_DRIVER,
     tmpFolder,
-    uploadsFolder: resolve(tmpFolder),
+    uploadsFolder: resolve(tmpFolder, 'photos'),
 
     multer: {
         storage: multer.diskStorage({
@@ -42,7 +42,7 @@ export default {
     config: {
         disk: {},
         aws: {
-            bucket: 'buscasaudebucket',
+            bucket: '...',
         },
     },
 } as IUploadConfig;

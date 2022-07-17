@@ -12,21 +12,17 @@ const upload = multer(uploadConfig.multer);
 productsRouter.post(
     '/',
     ensureAuthenticated,
-    upload.single('images'),
-    celebrate({
-        [Segments.BODY]: {
-            name: Joi.string().required(),
-            points: Joi.number().required(),
-        },
-    }),
+    upload.array('photos'),
+    // celebrate({
+    //     [Segments.BODY]: {
+    //         name: Joi.string().required(),
+    //         price: Joi.number().required(),
+    //         creditPoints: Joi.number().required(),
+    //         debitPoints: Joi.number().required(),
+    //         description: Joi.string().required(),
+    //     },
+    // }),
     productsController.create,
-);
-
-productsRouter.patch(
-    '/image/:id',
-    ensureAuthenticated,
-    upload.single('image'),
-    productsController.updateImage,
 );
 
 productsRouter.delete(
@@ -57,10 +53,11 @@ productsRouter.put(
 );
 
 productsRouter.get(
-    '/:id?',
+    '/:slug?',
     celebrate({
         [Segments.PARAMS]: {
-            id: Joi.string().uuid(),
+            slug: Joi.string(),
+            name: Joi.string(),
         },
     }),
     productsController.get,

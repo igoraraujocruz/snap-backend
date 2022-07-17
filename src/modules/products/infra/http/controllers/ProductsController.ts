@@ -1,26 +1,42 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { CreateProductService } from '@modules/products/services/CreateProductService';
+import { UploadPhotoService } from '@modules/photos/services/UploadPhotoService';
 import { DeleteProductService } from '@modules/products/services/DeleteProductService';
 import { UpdateProductService } from '@modules/products/services/UpdateProductService';
-import { UpdateProductImageService } from '@modules/products/services/UpdateProductImageService';
 import { GetProductService } from '@modules/products/services/GetProductService';
 import { classToClass } from 'class-transformer';
+import slugify from 'slugify';
 
 export class ProductsController {
     public async create(
         request: Request,
         response: Response,
     ): Promise<Response> {
-        const { name, points } = request.body;
+        const { name, creditPoints, debitPoints, description, price } =
+            request.body;
 
         const createProduct = container.resolve(CreateProductService);
 
+        const uploadPhotos = container.resolve(UploadPhotoService);
+
         const product = await createProduct.execute({
             name,
-            images: request.file?.filename,
-            points,
+            slug: slugify(name, {
+                lower: true,
+            }),
+            price,
+            description,
+            creditPoints,
+            debitPoints,
             userId: request.user.id,
+        });
+
+        request.files.forEach(nome => {
+            uploadPhotos.execute({
+                name: nome.filename,
+                productId: product.id,
+            });
         });
 
         return response.status(200).json(classToClass(product));
@@ -48,15 +64,15 @@ export class ProductsController {
         response: Response,
     ): Promise<Response> {
         const { id } = request.params;
-        const { name, images, points } = request.body;
+        const { name, creditPoints, debitPoints } = request.body;
 
         const updateClient = container.resolve(UpdateProductService);
 
         const clientUpdated = await updateClient.update({
             id,
             name,
-            images,
-            points,
+            creditPoints,
+            debitPoints,
             userId: request.user.id,
         });
 
@@ -64,25 +80,10 @@ export class ProductsController {
     }
 
     public async get(request: Request, response: Response): Promise<Response> {
-        const { id } = request.params;
+        const { slug } = request.params;
         const findProduct = container.resolve(GetProductService);
 
-        const product = await findProduct.execute(id);
-
-        return response.json(classToClass(product));
-    }
-
-    public async updateImage(
-        request: Request,
-        response: Response,
-    ): Promise<Response> {
-        const { id } = request.params;
-        const updateProductImage = container.resolve(UpdateProductImageService);
-
-        const product = await updateProductImage.execute({
-            productId: id,
-            imageFilename: request.file?.filename,
-        });
+        const product = await findProduct.execute(slug);
 
         return response.json(classToClass(product));
     }

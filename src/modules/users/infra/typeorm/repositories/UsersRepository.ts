@@ -16,7 +16,7 @@ export class UsersRepository
     }
 
     public async findByUsername(username: string): Promise<User | undefined> {
-        const item = this.ormRepository.findOne({
+        const item = await this.ormRepository.findOne({
             where: { username },
         });
 
@@ -24,17 +24,17 @@ export class UsersRepository
     }
 
     public async findByEmail(email: string): Promise<User | undefined> {
-        const item = this.ormRepository.findOne({
-            where: { email },
+        const user = await this.ormRepository.findOne({
+            email,
         });
 
-        return item;
+        return user;
     }
 
     public async findByMobilePhone(
         mobilePhone: string,
     ): Promise<User | undefined> {
-        const item = this.ormRepository.findOne({
+        const item = await this.ormRepository.findOne({
             where: { mobilePhone },
         });
 

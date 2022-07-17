@@ -13,12 +13,12 @@ export class GetProductService extends BaseService<Product> {
         super(productsRepository);
     }
 
-    public async execute(id?: string): Promise<Product | Product[]> {
-        if (id) {
-            const product = await this.productsRepository.findById(id);
+    public async execute(slug?: string): Promise<Product | Product[]> {
+        if (slug) {
+            const product = await this.productsRepository.findBySlug(slug);
 
             if (!product) {
-                throw new AppError('Client not found');
+                throw new AppError('Product not found');
             }
 
             return product;

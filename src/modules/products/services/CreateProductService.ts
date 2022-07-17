@@ -3,22 +3,23 @@ import { Product } from '@modules/products/infra/typeorm/entities/Product';
 import { IProductsRepository } from '@modules/products/repositories/IProductsRepository';
 import { CreateProductDTO } from '@modules/products/dtos/CreateProductDTO';
 import { AppError } from '@shared/errors/AppError';
-import { IStorageProvider } from '@shared/container/providers/StorageProvider/models/IStorageProviders';
+import slugify from 'slugify';
 
 @injectable()
 export class CreateProductService {
     constructor(
         @inject('ProductsRepository')
         private productsRepository: IProductsRepository,
-        @inject('StorageProvider')
-        private storageProvider: IStorageProvider,
     ) {}
 
     public async execute({
         name,
-        points,
+        slug,
+        price,
+        description,
+        creditPoints,
+        debitPoints,
         userId,
-        images,
     }: CreateProductDTO): Promise<Product> {
         const nameAlreadyExist = await this.productsRepository.findByName(name);
 
@@ -26,11 +27,32 @@ export class CreateProductService {
             throw new AppError('This name already exist');
         }
 
+        const slugAlreadyExist = await this.productsRepository.findBySlug(slug);
+
+        if (slugAlreadyExist) {
+            const product = await this.productsRepository.create({
+                name,
+                slug: slugify(`${name}-${creditPoints}`, {
+                    lower: true,
+                }),
+                price,
+                description,
+                creditPoints,
+                debitPoints,
+                userId,
+            });
+
+            return product;
+        }
+
         const product = await this.productsRepository.create({
             name,
-            points,
+            slug,
+            price,
+            description,
+            creditPoints,
+            debitPoints,
             userId,
-            images,
         });
 
         return product;

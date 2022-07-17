@@ -33,7 +33,7 @@ export abstract class BaseService<Entity extends IStandardProps>
         const item = await this.ormRepository.update(item_request);
 
         if (!item) {
-          throw new AppError('Item not found.');
+            throw new AppError('Item not found.');
         }
 
         return item;
@@ -43,7 +43,7 @@ export abstract class BaseService<Entity extends IStandardProps>
         const item = await this.ormRepository.findById(item_id);
 
         if (!item) {
-          throw new AppError('Item not found.');
+            throw new AppError('Item not found.');
         }
 
         await this.ormRepository.delete(item);
@@ -53,7 +53,7 @@ export abstract class BaseService<Entity extends IStandardProps>
         const item_to_list = await this.ormRepository.findById(item_id);
 
         if (!item_to_list) {
-          throw new AppError('Item not found.');
+            throw new AppError('Item not found.');
         }
 
         return item_to_list;

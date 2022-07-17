@@ -1,6 +1,1 @@
-teste
-tes
-adad
-a new test
-adasdsadas
-dadasdasd
+[ ] Adicionar description na entidade de produtos.

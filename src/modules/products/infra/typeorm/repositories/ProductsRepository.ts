@@ -22,4 +22,12 @@ export class ProductsRepository
 
         return item;
     }
+
+    public async findBySlug(slug: string): Promise<Product | undefined> {
+        const product = this.ormRepository.findOne({
+            where: { slug },
+        });
+
+        return product;
+    }
 }

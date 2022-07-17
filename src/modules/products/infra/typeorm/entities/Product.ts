@@ -7,10 +7,11 @@ import {
     DeleteDateColumn,
     ManyToOne,
     JoinColumn,
+    OneToMany,
 } from 'typeorm';
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude } from 'class-transformer';
 import { User } from '@modules/users/infra/typeorm/entities/User';
-import uploadConfig from '@config/upload';
+import { Photo } from '@modules/photos/infra/typeorm/entities/Photo';
 
 @Entity('products')
 export class Product {
@@ -21,10 +22,24 @@ export class Product {
     name: string;
 
     @Column()
-    images: string;
+    description: string;
 
     @Column()
-    points: number;
+    slug: string;
+
+    @OneToMany(() => Photo, photos => photos.product, {
+        eager: true,
+    })
+    photos: Photo[];
+
+    @Column()
+    price: number;
+
+    @Column()
+    creditPoints: number;
+
+    @Column()
+    debitPoints: number;
 
     @Column()
     @Exclude()
@@ -35,22 +50,6 @@ export class Product {
     })
     @JoinColumn({ name: 'userId' })
     user: User;
-
-    @Expose({ name: 'imageUrl' })
-    getImagesUrl(): string | null {
-        if (!this.images) {
-            return null;
-        }
-
-        switch (uploadConfig.driver) {
-            case 'disk':
-                return `${process.env.APP_API_URL}/files/${this.images}`;
-            case 's3':
-                return `https://${uploadConfig.config.aws.bucket}.s3.amazonaws.com/${this.images}`;
-            default:
-                return null;
-        }
-    }
 
     @CreateDateColumn()
     createdAt: Date;
