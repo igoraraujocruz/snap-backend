@@ -7,6 +7,7 @@ import { UpdateProductService } from '@modules/products/services/UpdateProductSe
 import { GetProductService } from '@modules/products/services/GetProductService';
 import { classToClass } from 'class-transformer';
 import slugify from 'slugify';
+import { SearchProductService } from '@modules/products/services/SearchProductService';
 
 export class ProductsController {
     public async create(
@@ -81,9 +82,23 @@ export class ProductsController {
 
     public async get(request: Request, response: Response): Promise<Response> {
         const { slug } = request.params;
+
         const findProduct = container.resolve(GetProductService);
 
         const product = await findProduct.execute(slug);
+
+        return response.json(classToClass(product));
+    }
+
+    public async search(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
+        const { option } = request.params;
+
+        const findProduct = container.resolve(SearchProductService);
+
+        const product = await findProduct.execute(option);
 
         return response.json(classToClass(product));
     }

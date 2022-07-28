@@ -30,4 +30,16 @@ export class ProductsRepository
 
         return product;
     }
+
+    public async findByNamePricePoints(option: string): Promise<Product[]> {
+        const products = this.ormRepository
+            .createQueryBuilder('product')
+            .leftJoinAndSelect('product.photos', 'photos')
+            .where('LOWER(product.name) = LOWER(:option)', { option })
+            .orWhere('product.price = :option', { option })
+            .orWhere('product.debitPoints = :option', { option })
+            .getMany();
+
+        return products;
+    }
 }

@@ -57,8 +57,17 @@ productsRouter.get(
     celebrate({
         [Segments.PARAMS]: {
             slug: Joi.string(),
-            name: Joi.string(),
         },
     }),
     productsController.get,
+);
+
+productsRouter.get(
+    '/search/:option?',
+    celebrate({
+        [Segments.PARAMS]: {
+            option: Joi.string(),
+        },
+    }),
+    productsController.search,
 );

@@ -63,7 +63,7 @@ export class AuthenticateUserService {
             expiresIn: expiresInRefreshToken,
         });
 
-        const date = dayjs().add(30, 'day');
+        const date = dayjs().add(5, 's');
 
         await this.usersTokensRepository.create({
             expiresDate: date.toDate(),

@@ -47,7 +47,7 @@ export class RefreshTokenService {
             expiresIn: auth.jwt.expiresInRefreshToken,
         });
 
-        const date = dayjs().add(30, 'day');
+        const date = dayjs().add(10, 's');
 
         await this.usersTokensRepository.create({
             refreshToken,

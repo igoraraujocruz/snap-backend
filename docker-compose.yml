@@ -1,8 +1,8 @@
-version: "3.7"
+version: "3.9"
 
 services:
  database:
-    image: postgres:13.2-alpine
+    image: postgres
     restart: always
     environment:
      POSTGRES_USER: ${POSTGRESQL_USERNAME}
@@ -10,6 +10,8 @@ services:
      POSTGRES_DB: ${POSTGRESQL_DATABASE}
     volumes:
       - pgdata:/data/postgres
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - ${POSTGRESQL_PORT}:5432
 

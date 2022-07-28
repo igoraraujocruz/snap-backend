@@ -32,14 +32,14 @@ export class Product {
     })
     photos: Photo[];
 
-    @Column()
-    price: number;
+    @Column({ type: 'real' })
+    price: string;
 
-    @Column()
-    creditPoints: number;
+    @Column({ type: 'real' })
+    creditPoints: string;
 
-    @Column()
-    debitPoints: number;
+    @Column({ type: 'real' })
+    debitPoints: string;
 
     @Column()
     @Exclude()
