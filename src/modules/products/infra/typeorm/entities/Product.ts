@@ -12,6 +12,7 @@ import {
 import { Exclude } from 'class-transformer';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 import { Photo } from '@modules/photos/infra/typeorm/entities/Photo';
+import { Shop } from '@modules/shop/infra/typeorm/entities/Shop';
 
 @Entity('products')
 export class Product {
@@ -31,6 +32,9 @@ export class Product {
         eager: true,
     })
     photos: Photo[];
+
+    @OneToMany(() => Shop, shop => shop.product)
+    shop: Shop[];
 
     @Column({ type: 'real' })
     price: string;

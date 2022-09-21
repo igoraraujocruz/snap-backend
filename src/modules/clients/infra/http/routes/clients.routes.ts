@@ -10,9 +10,7 @@ clientsRouter.post(
     celebrate({
         [Segments.BODY]: {
             name: Joi.string().required(),
-            cpf: Joi.string()
-                .required()
-                .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/),
+            cpf: Joi.string().required().min(11),
             email: Joi.string().email().required(),
             birthday: Joi.date().required(),
             mobilePhone: Joi.string().max(13).required(),

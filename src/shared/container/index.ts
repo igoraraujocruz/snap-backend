@@ -17,6 +17,9 @@ import { ProductsRepository } from '@modules/products/infra/typeorm/repositories
 import { IPhotosRepository } from '@modules/photos/repositories/IPhotosRepository';
 import { PhotosRepository } from '@modules/photos/infra/typeorm/repositories/PhotosRepository';
 
+import { IShopRepository } from '@modules/shop/repositories/IShopRepository';
+import { ShopRepository } from '@modules/shop/infra/typeorm/repositories/ShopRepository';
+
 container.registerSingleton<IUsersRepository>(
     'UsersRepository',
     UsersRepository,
@@ -41,3 +44,5 @@ container.registerSingleton<IPhotosRepository>(
     'PhotosRepository',
     PhotosRepository,
 );
+
+container.registerSingleton<IShopRepository>('ShopRepository', ShopRepository);

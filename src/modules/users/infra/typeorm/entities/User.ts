@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Product } from '@modules/products/infra/typeorm/entities/Product';
+import { Shop } from '@modules/shop/infra/typeorm/entities/Shop';
 
 @Entity('users')
 export class User {
@@ -23,6 +24,9 @@ export class User {
 
     @OneToMany(() => Product, product => product.user)
     products: Product[];
+
+    @OneToMany(() => Shop, shop => shop.user)
+    shop: Shop[];
 
     @Column()
     @Exclude()

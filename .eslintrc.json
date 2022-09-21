@@ -18,6 +18,7 @@
         "prettier"
     ],
     "rules": {
+        "no-shadow": "off",
         "@typescript-eslint/ban-types": "off",
         "no-useless-constructor": "off",
         "no-use-before-define": "off",

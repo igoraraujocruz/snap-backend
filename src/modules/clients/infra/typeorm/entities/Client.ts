@@ -5,8 +5,10 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     DeleteDateColumn,
+    OneToMany,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Shop } from '@modules/shop/infra/typeorm/entities/Shop';
 
 @Entity('clients')
 export class Client {
@@ -27,6 +29,9 @@ export class Client {
 
     @Column()
     birthday: Date;
+
+    @OneToMany(() => Shop, shop => shop.client)
+    shop: Shop[];
 
     @CreateDateColumn()
     createdAt: Date;

@@ -1,8 +1,8 @@
 export default {
     jwt: {
         secret: process.env.APP_SECRET || 'test',
-        expiresIn: '5s',
+        expiresIn: '15m',
         refreshTokenSecret: process.env.APP_REFRESHTOKENSECRET || 'test',
-        expiresInRefreshToken: '10s',
+        expiresInRefreshToken: '1d',
     },
 };
