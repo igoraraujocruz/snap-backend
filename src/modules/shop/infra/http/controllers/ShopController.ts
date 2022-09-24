@@ -10,11 +10,12 @@ export class ShopController {
         request: Request,
         response: Response,
     ): Promise<Response> {
-        const { typeOfPayment, clientId, productId } = request.body;
+        const { typeOfPayment, clientId, productId, quantity } = request.body;
 
         const createShop = container.resolve(CreateShopService);
 
         const shop = await createShop.execute({
+            quantity,
             clientId,
             productId,
             typeOfPayment,

@@ -36,14 +36,14 @@ export class Product {
     @OneToMany(() => Shop, shop => shop.product)
     shop: Shop[];
 
-    @Column({ type: 'real' })
-    price: string;
+    @Column()
+    price: number;
 
-    @Column({ type: 'real' })
-    creditPoints: string;
+    @Column()
+    creditPoints: number;
 
-    @Column({ type: 'real' })
-    debitPoints: string;
+    @Column()
+    debitPoints: number;
 
     @Column()
     @Exclude()

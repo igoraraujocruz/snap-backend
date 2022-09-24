@@ -12,12 +12,14 @@ export class ShopRepository implements IShopRepository {
     }
 
     async create({
+        quantity,
         clientId,
         productId,
         typeOfPayment,
         userId,
     }: CreateShopDTO): Promise<Shop> {
         const shop = this.ormRepository.create({
+            quantity,
             clientId,
             productId,
             typeOfPayment,

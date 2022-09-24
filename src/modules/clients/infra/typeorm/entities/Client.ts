@@ -22,6 +22,9 @@ export class Client {
     cpf: string;
 
     @Column()
+    points: number;
+
+    @Column()
     email: string;
 
     @Column()
@@ -30,7 +33,9 @@ export class Client {
     @Column()
     birthday: Date;
 
-    @OneToMany(() => Shop, shop => shop.client)
+    @OneToMany(() => Shop, shop => shop.client, {
+        eager: true
+    })
     shop: Shop[];
 
     @CreateDateColumn()

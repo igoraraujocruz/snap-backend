@@ -13,15 +13,15 @@ productsRouter.post(
     '/',
     ensureAuthenticated,
     upload.array('photos'),
-    // celebrate({
-    //     [Segments.BODY]: {
-    //         name: Joi.string().required(),
-    //         price: Joi.number().required(),
-    //         creditPoints: Joi.number().required(),
-    //         debitPoints: Joi.number().required(),
-    //         description: Joi.string().required(),
-    //     },
-    // }),
+    celebrate({
+        [Segments.BODY]: {
+            name: Joi.string().required(),
+            price: Joi.number().required(),
+            creditPoints: Joi.number().required(),
+             debitPoints: Joi.number().required(),
+             description: Joi.string().required(),
+        },
+    }),
     productsController.create,
 );
 

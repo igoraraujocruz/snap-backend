@@ -6,4 +6,6 @@ export interface IClientsRepository extends IBaseRepository<Client> {
     findByEmail(email: string): Promise<Client | undefined>;
     findByMobilePhone(mobilePhone: string): Promise<Client | undefined>;
     findByCpf(cpf: string): Promise<Client | undefined>;
+    addPoints({ points, id }: Pick<Client, 'points' | 'id'>): Promise<void>;
+    decreasePoints({ points, id }: Pick<Client, 'points' | 'id'>): Promise<void>;
 }

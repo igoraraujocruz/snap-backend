@@ -4,9 +4,11 @@ type TypeOfPayment =
     | 'creditCard'
     | 'debitCard'
     | 'pix'
-    | 'picpay';
+    | 'picpay'
+    | 'creditPoints';
 
 export interface CreateShopDTO {
+    quantity: number;
     typeOfPayment: TypeOfPayment;
     clientId: string;
     productId: string;

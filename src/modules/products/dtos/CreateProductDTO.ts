@@ -1,9 +1,9 @@
 export interface CreateProductDTO {
     name: string;
     slug: string;
-    price: string;
-    creditPoints: string;
-    debitPoints: string;
+    price: number;
+    creditPoints: number;
+    debitPoints: number;
     description: string;
     userId: string;
 }

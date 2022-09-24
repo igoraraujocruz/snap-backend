@@ -32,15 +32,15 @@ export class ProductTable1647281677711 implements MigrationInterface {
                     },
                     {
                         name: 'price',
-                        type: 'varchar',
+                        type: 'int',
                     },
                     {
                         name: 'creditPoints',
-                        type: 'varchar',
+                        type: 'int',
                     },
                     {
                         name: 'debitPoints',
-                        type: 'varchar',
+                        type: 'int',
                     },
                     {
                         name: 'userId',

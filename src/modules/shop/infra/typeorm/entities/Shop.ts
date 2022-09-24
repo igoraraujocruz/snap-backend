@@ -22,20 +22,28 @@ export class Shop {
     typeOfPayment: string;
 
     @Column()
+    @Exclude()
     clientId: string;
+
+    @Column()
+    quantity: number;
 
     @ManyToOne(() => Client, client => client.shop)
     @JoinColumn({ name: 'clientId' })
     client: Client;
 
     @Column()
+    @Exclude()
     productId: string;
 
-    @ManyToOne(() => Product, product => product.shop)
+    @ManyToOne(() => Product, product => product.shop, {
+        eager: true
+    })
     @JoinColumn({ name: 'productId' })
     product: Product;
 
     @Column()
+    @Exclude()
     userId: string;
 
     @ManyToOne(() => User, user => user.shop)

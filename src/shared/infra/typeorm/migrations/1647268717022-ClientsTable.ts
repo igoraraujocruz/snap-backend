@@ -18,6 +18,12 @@ export class ClientsTable1647268717022 implements MigrationInterface {
                         type: 'varchar',
                     },
                     {
+                        name: 'points',
+                        type: 'int',
+                        generationStrategy: 'increment',
+                        default: 0
+                    },
+                    {
                         name: 'birthday',
                         type: 'timestamp',
                     },

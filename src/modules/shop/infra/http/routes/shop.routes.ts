@@ -11,6 +11,7 @@ shopRouter.post(
     ensureAuthenticated,
     celebrate({
         [Segments.BODY]: {
+            quantity: Joi.number().required(),
             clientId: Joi.string().required(),
             productId: Joi.string().required(),
             typeOfPayment: Joi.string()
@@ -22,6 +23,7 @@ shopRouter.post(
                     'debitCard',
                     'pix',
                     'picpay',
+                    'creditPoints'
                 ),
         },
     }),

@@ -23,6 +23,10 @@ export class ShopTable1659885345178 implements MigrationInterface {
                         type: 'varchar',
                     },
                     {
+                        name: 'quantity',
+                        type: 'int',
+                    },
+                    {
                         name: 'clientId',
                         type: 'uuid',
                     },

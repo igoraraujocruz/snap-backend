@@ -4,6 +4,7 @@ import { GetShopDTO } from '../dtos/GetShopDTO';
 
 export interface IShopRepository {
     create({
+        quantity,
         clientId,
         productId,
         typeOfPayment,
