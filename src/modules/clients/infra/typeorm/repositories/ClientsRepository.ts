@@ -77,4 +77,14 @@ export class ClientsRepository
         await this.save(client)
 
     }
+
+    async findAllByName(name: string): Promise<Client[]> {
+        const item = this.ormRepository
+        .createQueryBuilder('client')
+        .leftJoinAndSelect('client.shop', 'shop')
+        .where('LOWER(client.name) = LOWER(:name)', { name })
+        .getMany();
+
+        return item;
+    }
 }

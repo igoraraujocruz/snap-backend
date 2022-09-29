@@ -5,6 +5,7 @@ import { DeleteClientService } from '@modules/clients/services/DeleteClientServi
 import { UpdateClientService } from '@modules/clients/services/UpdateClientService';
 import { GetClientService } from '@modules/clients/services/GetClientService';
 import { classToClass } from 'class-transformer';
+import { SearchClientService } from '@modules/clients/services/SearchClientService';
 
 export class ClientsController {
     public async create(
@@ -69,6 +70,16 @@ export class ClientsController {
         const findClient = container.resolve(GetClientService);
 
         const client = await findClient.execute(id);
+
+        return response.json(classToClass(client));
+    }
+
+    async search(request: Request, response: Response): Promise<Response> {
+        const { option } = request.params;
+
+        const findClient = container.resolve(SearchClientService);
+
+        const client = await findClient.execute(option);
 
         return response.json(classToClass(client));
     }

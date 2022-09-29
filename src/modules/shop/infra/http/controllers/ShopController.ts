@@ -43,17 +43,11 @@ export class ShopController {
     }
 
     public async get(request: Request, response: Response): Promise<Response> {
-        const { productId, typeOfPayment, clientId, userId } =
-            request.query as Record<string, any>;
+        const { clientId } = request.params
 
         const find = container.resolve(GetShopService);
 
-        const shop = await find.execute({
-            productId,
-            typeOfPayment,
-            clientId,
-            userId,
-        });
+        const shop = await find.execute(clientId);
 
         return response.json(classToClass(shop));
     }

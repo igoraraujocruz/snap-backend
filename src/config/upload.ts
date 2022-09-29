@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 import crypto from 'crypto';
 import multer from 'multer';
+import { AppError } from '@shared/errors/AppError';
 
 const tmpFolder = resolve(__dirname, '..', '..', 'tmp');
 
@@ -37,6 +38,18 @@ export default {
                 return callback(null, fileName);
             },
         }),
+        limits: {
+            fileSize: 8000000, // Compliant: 8MB
+        },
+        fileFilter: (request: any, file: any, callback: any) => {
+            const formats = ['image/jpg', 'image/jpeg', 'image/png'];
+      
+            if (formats.includes(file.mimetype)) {
+              callback(null, true);
+            } else {
+              callback(new AppError('Formato não aceito'));
+            }
+        },
     },
 
     config: {

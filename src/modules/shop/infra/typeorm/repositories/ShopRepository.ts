@@ -2,7 +2,6 @@ import { getRepository, Repository } from 'typeorm';
 import { IShopRepository } from '@modules/shop/repositories/IShopRepository';
 import { Shop } from '@modules/shop/infra/typeorm/entities/Shop';
 import { CreateShopDTO } from '@modules/shop/dtos/CreateShopDTO';
-import { GetShopDTO } from '@modules/shop/dtos/GetShopDTO';
 
 export class ShopRepository implements IShopRepository {
     private ormRepository: Repository<Shop>;
@@ -31,7 +30,7 @@ export class ShopRepository implements IShopRepository {
         return shopCreated;
     }
 
-    async findByTypeOfPayment({ typeOfPayment }: GetShopDTO): Promise<Shop[]> {
+    async findByTypeOfPayment(typeOfPayment: string): Promise<Shop[]> {
         const shop = this.ormRepository.find({
             where: { typeOfPayment },
         });
@@ -39,7 +38,7 @@ export class ShopRepository implements IShopRepository {
         return shop;
     }
 
-    async findByClientId({ clientId }: GetShopDTO): Promise<Shop[]> {
+    async findByClientId(clientId: string): Promise<Shop[]> {
         const shop = this.ormRepository.find({
             where: { clientId },
         });
@@ -47,7 +46,7 @@ export class ShopRepository implements IShopRepository {
         return shop;
     }
 
-    async findByProductId({ productId }: GetShopDTO): Promise<Shop[]> {
+    async findByProductId(productId: string): Promise<Shop[]> {
         const shop = this.ormRepository.find({
             where: { productId },
         });
@@ -55,7 +54,7 @@ export class ShopRepository implements IShopRepository {
         return shop;
     }
 
-    async findByUserId({ userId }: GetShopDTO): Promise<Shop[]> {
+    async findByUserId(userId: string): Promise<Shop[]> {
         const shop = this.ormRepository.find({
             where: { userId },
         });

@@ -1,14 +1,14 @@
 import { inject, injectable } from 'tsyringe';
-import { BaseService } from '@shared/services/BaseService';
 import { IProductsRepository } from '@modules/products/repositories/IProductsRepository';
-import { Product } from '../infra/typeorm/entities/Product';
 
 @injectable()
-export class DeleteProductService extends BaseService<Product> {
+export class DeleteProductService {
     constructor(
         @inject('ProductsRepository')
         private productsRepository: IProductsRepository,
-    ) {
-        super(productsRepository);
+    ) {}
+
+    async execute(id: string): Promise<void> {
+        return await this.productsRepository.delete(id)
     }
 }

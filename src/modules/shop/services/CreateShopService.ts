@@ -32,12 +32,6 @@ export class CreateShopService {
 
 
         if(typeOfPayment == 'creditPoints') {
-            /* const shops = await this.shopRepository.findByClientId({clientId})
-
-            const clientPoints =  shops.filter(shop => shop.typeOfPayment !== 'creditPoints')
-            .map(shop => shop.quantity * shop.product.creditPoints)
-            .reduce((prev, curr) => prev + curr, 0) */
-
             
             const client = await this.clientsRepository.findById(clientId)
 

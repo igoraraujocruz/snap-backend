@@ -10,10 +10,10 @@ clientsRouter.post(
     celebrate({
         [Segments.BODY]: {
             name: Joi.string().required(),
-            cpf: Joi.string().required().min(11),
+            cpf: Joi.string().required().max(11).min(11),
             email: Joi.string().email().required(),
             birthday: Joi.date().required(),
-            mobilePhone: Joi.string().max(13).required(),
+            mobilePhone: Joi.string().max(11).min(11).required(),
         },
     }),
     clientsController.create,
@@ -54,4 +54,14 @@ clientsRouter.get(
         },
     }),
     clientsController.get,
+);
+
+clientsRouter.get(
+    '/search/:option?',
+    celebrate({
+        [Segments.PARAMS]: {
+            option: Joi.string(),
+        },
+    }),
+    clientsController.search,
 );

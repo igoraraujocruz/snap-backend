@@ -21,12 +21,7 @@ export class CreateProductService {
         debitPoints,
         userId,
     }: CreateProductDTO): Promise<Product> {
-        const nameAlreadyExist = await this.productsRepository.findByName(name);
-
-        if (nameAlreadyExist) {
-            throw new AppError('Este nome já existe');
-        }
-
+        
         const slugAlreadyExist = await this.productsRepository.findBySlug(slug);
 
         if (slugAlreadyExist) {

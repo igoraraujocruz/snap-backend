@@ -41,12 +41,9 @@ shopRouter.delete(
 );
 
 shopRouter.get(
-    '/',
+    '/:clientId?',
     celebrate({
-        [Segments.QUERY]: {
-            typeOfPayment: Joi.string(),
-            productId: Joi.string().uuid(),
-            userId: Joi.string().uuid(),
+        [Segments.PARAMS]: {
             clientId: Joi.string().uuid(),
         },
     }),

@@ -1,6 +1,5 @@
 import { Shop } from '@modules/shop/infra/typeorm/entities/Shop';
 import { CreateShopDTO } from '../dtos/CreateShopDTO';
-import { GetShopDTO } from '../dtos/GetShopDTO';
 
 export interface IShopRepository {
     create({
@@ -11,13 +10,13 @@ export interface IShopRepository {
         userId,
     }: CreateShopDTO): Promise<Shop>;
 
-    findByClientId({ clientId }: GetShopDTO): Promise<Shop[]>;
+    findByClientId(clientId: string): Promise<Shop[]>;
 
-    findByProductId({ productId }: GetShopDTO): Promise<Shop[]>;
+    findByProductId(productId: string): Promise<Shop[]>;
 
-    findByUserId({ userId }: GetShopDTO): Promise<Shop[]>;
+    findByUserId(userId: string): Promise<Shop[]>;
 
-    findByTypeOfPayment({ typeOfPayment }: GetShopDTO): Promise<Shop[]>;
+    findByTypeOfPayment(typeOfPayment: string): Promise<Shop[]>;
 
     findAll(): Promise<Shop[]>;
 }

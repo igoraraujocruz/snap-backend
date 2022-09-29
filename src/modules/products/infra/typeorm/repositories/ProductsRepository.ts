@@ -46,6 +46,17 @@ export class ProductsRepository implements IProductsRepository {
         return product;
     }
 
+    public async findAllByName(name: string): Promise<Product[]> {
+        const item = this.ormRepository
+        .createQueryBuilder('product')
+        .leftJoinAndSelect('product.photos', 'photos')
+        .leftJoinAndSelect('product.user', 'user')
+        .where('LOWER(product.name) = LOWER(:name)', { name })
+        .getMany();
+
+        return item;
+    }
+
     public async findByNamePricePoints(option: string): Promise<Product[]> {
         const products = this.ormRepository
             .createQueryBuilder('product')
@@ -56,5 +67,9 @@ export class ProductsRepository implements IProductsRepository {
             .getMany();
 
         return products;
+    }
+
+    async delete(id: string): Promise<void> {
+        await this.ormRepository.softDelete(id);
     }
 }

@@ -28,7 +28,6 @@ export default class UsersTable1633029030178 implements MigrationInterface {
                     {
                         name: 'mobilePhone',
                         type: 'varchar',
-                        length: '13',
                     },
                     {
                         name: 'password',

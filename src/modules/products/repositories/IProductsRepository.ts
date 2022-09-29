@@ -8,4 +8,6 @@ export interface IProductsRepository {
     findBySlug(slug: string): Promise<Product | undefined>;
     findByNamePricePoints(option: string): Promise<Product[]>;
     create(product: CreateProductDTO): Promise<Product>;
+    findAllByName(name: string): Promise<Product[]>;
+    delete(id: string): Promise<void>;
 }

@@ -14,7 +14,7 @@ usersRouter.post(
             username: Joi.string().required(),
             email: Joi.string().email().required(),
             password: Joi.string().min(5).required(),
-            mobilePhone: Joi.string().max(13).required(),
+            mobilePhone: Joi.string().max(11).min(11).required(),
         },
     }),
     usersController.create,

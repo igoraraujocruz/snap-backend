@@ -8,6 +8,8 @@ import { GetProductService } from '@modules/products/services/GetProductService'
 import { classToClass } from 'class-transformer';
 import slugify from 'slugify';
 import { SearchProductService } from '@modules/products/services/SearchProductService';
+import { GetProductBySlugService } from '@modules/products/services/GetProductBySlugService';
+import { GetProductByIdService } from '@modules/products/services/GetProductByIdService';
 
 export class ProductsController {
     public async create(
@@ -52,7 +54,7 @@ export class ProductsController {
 
             const deleteProduct = container.resolve(DeleteProductService);
 
-            const productDeleted = await deleteProduct.delete(id);
+            const productDeleted = await deleteProduct.execute(id);
 
             return response.json(classToClass(productDeleted));
         } catch (error) {
@@ -81,13 +83,29 @@ export class ProductsController {
     }
 
     public async get(request: Request, response: Response): Promise<Response> {
-        const { slug } = request.params;
+        const { productSlug, productId } = request.query as Record<string, string>;
 
-        const findProduct = container.resolve(GetProductService);
+        if (productSlug) {
+            const findProduct = container.resolve(GetProductBySlugService);
 
-        const product = await findProduct.execute(slug);
+            const product = await findProduct.execute(productSlug);
 
-        return response.json(classToClass(product));
+            return response.json(classToClass(product));
+        }
+
+        if (productId) {
+            const findProduct = container.resolve(GetProductByIdService);
+
+            const product = await findProduct.execute(productId);
+
+            return response.json(classToClass(product));
+        }
+
+        const findAllProducts = container.resolve(GetProductService);
+
+        const products = await findAllProducts.execute();
+
+        return response.json(classToClass(products));
     }
 
     public async search(

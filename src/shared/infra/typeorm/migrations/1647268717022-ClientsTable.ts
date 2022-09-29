@@ -34,7 +34,6 @@ export class ClientsTable1647268717022 implements MigrationInterface {
                     {
                         name: 'mobilePhone',
                         type: 'varchar',
-                        length: '13',
                     },
                     {
                         name: 'cpf',

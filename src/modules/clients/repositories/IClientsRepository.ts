@@ -8,4 +8,5 @@ export interface IClientsRepository extends IBaseRepository<Client> {
     findByCpf(cpf: string): Promise<Client | undefined>;
     addPoints({ points, id }: Pick<Client, 'points' | 'id'>): Promise<void>;
     decreasePoints({ points, id }: Pick<Client, 'points' | 'id'>): Promise<void>;
+    findAllByName(name: string): Promise<Client[]>;
 }

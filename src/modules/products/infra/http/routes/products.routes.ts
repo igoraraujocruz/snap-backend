@@ -53,10 +53,11 @@ productsRouter.put(
 );
 
 productsRouter.get(
-    '/:slug?',
+    '/',
     celebrate({
-        [Segments.PARAMS]: {
-            slug: Joi.string(),
+        [Segments.QUERY]: {
+            productSlug: Joi.string(),
+            productId: Joi.string().uuid(),
         },
     }),
     productsController.get,
