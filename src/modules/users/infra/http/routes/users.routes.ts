@@ -51,10 +51,22 @@ usersRouter.put(
 
 usersRouter.get(
     '/:id?',
+    ensureAuthenticated,
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.string().uuid(),
         },
     }),
     usersController.get,
+);
+
+usersRouter.get(
+    '/search/:option?',
+    ensureAuthenticated,
+    celebrate({
+        [Segments.PARAMS]: {
+            option: Joi.string(),
+        },
+    }),
+    usersController.search,
 );

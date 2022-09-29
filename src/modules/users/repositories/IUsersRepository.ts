@@ -5,4 +5,5 @@ export interface IUsersRepository extends IBaseRepository<User> {
     findByUsername(username: string): Promise<User | undefined>;
     findByEmail(email: string): Promise<User | undefined>;
     findByMobilePhone(mobilePhone: string): Promise<User | undefined>;
+    findAllByName(name: string): Promise<User[]>;
 }

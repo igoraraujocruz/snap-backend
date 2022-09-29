@@ -5,6 +5,7 @@ import { DeleteUserService } from '@modules/users/services/DeleteUserService';
 import { UpdateUserService } from '@modules/users/services/UpdateUserService';
 import { GetUserService } from '@modules/users/services/GetUserService';
 import { classToClass } from 'class-transformer';
+import { SearchUserService } from '@modules/users/services/SearchUserService';
 
 export class UsersController {
     public async create(
@@ -69,6 +70,16 @@ export class UsersController {
         const findUser = container.resolve(GetUserService);
 
         const user = await findUser.execute(id);
+
+        return response.json(classToClass(user));
+    }
+
+    async search(request: Request, response: Response): Promise<Response> {
+        const { option } = request.params;
+
+        const findUser = container.resolve(SearchUserService);
+
+        const user = await findUser.execute(option);
 
         return response.json(classToClass(user));
     }

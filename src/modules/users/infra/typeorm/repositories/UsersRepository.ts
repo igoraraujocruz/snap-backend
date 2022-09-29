@@ -40,4 +40,13 @@ export class UsersRepository
 
         return item;
     }
+
+    async findAllByName(name: string): Promise<User[]> {
+        const item = this.ormRepository
+        .createQueryBuilder('user')
+        .where('LOWER(user.name) = LOWER(:name)', { name })
+        .getMany();
+
+        return item;
+    }
 }

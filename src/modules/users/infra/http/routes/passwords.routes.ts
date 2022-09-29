@@ -18,14 +18,14 @@ passwordsProvidersRouter.post(
     forgotPasswordController.create,
 );
 passwordsProvidersRouter.post(
-    '/reset',
+    '/reset/:token',
     celebrate({
         [Segments.PARAMS]: {
             token: Joi.string().uuid().required(),
         },
         [Segments.BODY]: {
-            password: Joi.string().required(),
-            password_confirmation: Joi.string()
+            password: Joi.string().required().min(5),
+            password_confirmation: Joi.string().min(5)
                 .required()
                 .valid(Joi.ref('password')),
         },
