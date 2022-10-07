@@ -66,14 +66,15 @@ export class ProductsController {
         request: Request,
         response: Response,
     ): Promise<Response> {
-        const { id } = request.params;
-        const { name, creditPoints, debitPoints } = request.body;
+        const {id, name, description, price, creditPoints, debitPoints } = request.body;
 
         const updateClient = container.resolve(UpdateProductService);
 
-        const clientUpdated = await updateClient.update({
+        const clientUpdated = await updateClient.execute({
             id,
             name,
+            description,
+            price,
             creditPoints,
             debitPoints,
             userId: request.user.id,

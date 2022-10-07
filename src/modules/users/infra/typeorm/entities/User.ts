@@ -6,10 +6,13 @@ import {
     UpdateDateColumn,
     DeleteDateColumn,
     OneToMany,
+    ManyToMany,
+    JoinTable,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Product } from '@modules/products/infra/typeorm/entities/Product';
 import { Shop } from '@modules/shop/infra/typeorm/entities/Shop';
+import { Permission } from './Permission';
 
 @Entity('users')
 export class User {
@@ -27,6 +30,16 @@ export class User {
 
     @OneToMany(() => Shop, shop => shop.user)
     shop: Shop[];
+
+    @ManyToMany(() => Permission, {
+        eager: true
+    })
+    @JoinTable({
+        name: "users_permissions",
+        joinColumns: [{ name: "userId" }],
+        inverseJoinColumns: [{ name: "permissionId" }],
+    })
+    permissions: Permission[];
 
     @Column()
     @Exclude()

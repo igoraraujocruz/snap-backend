@@ -20,6 +20,13 @@ import { PhotosRepository } from '@modules/photos/infra/typeorm/repositories/Pho
 import { IShopRepository } from '@modules/shop/repositories/IShopRepository';
 import { ShopRepository } from '@modules/shop/infra/typeorm/repositories/ShopRepository';
 
+import { IPermissionsRepository } from '@modules/users/repositories/IPermissionsRepository';
+import { PermissionsRepository } from '@modules/users/infra/typeorm/repositories/PermissionsRepository';
+
+import { IUsersPermissionsRepository } from '@modules/usersPermissions/repositories/IUsersPermissions';
+import { UsersPermissionsRepository } from '@modules/usersPermissions/infra/typeorm/repositories/UsersPermissionsRepository';
+
+
 container.registerSingleton<IUsersRepository>(
     'UsersRepository',
     UsersRepository,
@@ -46,3 +53,7 @@ container.registerSingleton<IPhotosRepository>(
 );
 
 container.registerSingleton<IShopRepository>('ShopRepository', ShopRepository);
+
+container.registerSingleton<IPermissionsRepository>('PermissionsRepository', PermissionsRepository);
+
+container.registerSingleton<IUsersPermissionsRepository>('UsersPermissionsRepository', UsersPermissionsRepository);

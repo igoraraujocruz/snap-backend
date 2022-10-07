@@ -5,7 +5,9 @@ import { clientsRouter } from '@modules/clients/infra/http/routes/clients.routes
 import { productsRouter } from '@modules/products/infra/http/routes/products.routes';
 import { photosRouter } from '@modules/photos/infra/http/routes/photos.routes';
 import { passwordsProvidersRouter } from '@modules/users/infra/http/routes/passwords.routes';
+import { permissionsRouter } from '@modules/users/infra/http/routes/permissions.routes';
 import { shopRouter } from '@modules/shop/infra/http/routes/shop.routes';
+import { usersPermissionsRouter } from '@modules/usersPermissions/infra/http/routes/usersPermissions.routes';
 
 export const routes = Router();
 routes.use('/users', usersRouter);
@@ -14,4 +16,6 @@ routes.use('/clients', clientsRouter);
 routes.use('/products', productsRouter);
 routes.use('/photos', photosRouter);
 routes.use('/password', passwordsProvidersRouter);
+routes.use('/permissions', permissionsRouter);
 routes.use('/shop', shopRouter);
+routes.use('/usersPermissions', usersPermissionsRouter);

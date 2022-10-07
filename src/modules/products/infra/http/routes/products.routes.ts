@@ -4,6 +4,7 @@ import { ProductsController } from '@modules/products/infra/http/controllers/Pro
 import { ensureAuthenticated } from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 import multer from 'multer';
 import uploadConfig from '@config/upload';
+import { can } from '../../../../users/infra/http/middlewares/permissions';
 
 export const productsRouter = Router();
 const productsController = new ProductsController();
@@ -12,6 +13,7 @@ const upload = multer(uploadConfig.multer);
 productsRouter.post(
     '/',
     ensureAuthenticated,
+    can(['Cadastrar Produto']),
     upload.array('photos'),
     celebrate({
         [Segments.BODY]: {
@@ -28,6 +30,7 @@ productsRouter.post(
 productsRouter.delete(
     '/:id',
     ensureAuthenticated,
+    can(['Deletar Produto']),
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.string().uuid().required(),
@@ -37,16 +40,17 @@ productsRouter.delete(
 );
 
 productsRouter.put(
-    '/:id',
+    '/',
     ensureAuthenticated,
+    can(['Editar Produto']),
     celebrate({
-        [Segments.PARAMS]: {
-            id: Joi.string().uuid().required(),
-        },
         [Segments.BODY]: {
+            id: Joi.string().uuid().required(),
             name: Joi.string(),
-            images: Joi.string(),
-            points: Joi.string(),
+            description: Joi.string(),
+            price: Joi.number(),
+            creditPoints: Joi.number(),
+            debitPoints: Joi.number(),
         },
     }),
     productsController.update,

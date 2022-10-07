@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 import { ClientsController } from '@modules/clients/infra/http/controllers/ClientsController';
+import { can } from '../../../../users/infra/http/middlewares/permissions';
+import { ensureAuthenticated } from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 
 export const clientsRouter = Router();
 const clientsController = new ClientsController();
@@ -21,6 +23,8 @@ clientsRouter.post(
 
 clientsRouter.delete(
     '/:id',
+    ensureAuthenticated,
+    can(['Deletar Cliente']),
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.string().uuid().required(),
@@ -31,6 +35,8 @@ clientsRouter.delete(
 
 clientsRouter.put(
     '/:id',
+    ensureAuthenticated,
+    can(['Editar Cliente']),
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.string().uuid().required(),
@@ -48,6 +54,8 @@ clientsRouter.put(
 
 clientsRouter.get(
     '/:id?',
+    ensureAuthenticated,
+    can(['Listar Cliente']),
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.string().uuid(),
@@ -58,6 +66,8 @@ clientsRouter.get(
 
 clientsRouter.get(
     '/search/:option?',
+    ensureAuthenticated,
+    can(['Listar Cliente']),
     celebrate({
         [Segments.PARAMS]: {
             option: Joi.string(),

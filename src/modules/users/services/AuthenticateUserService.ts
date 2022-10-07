@@ -6,6 +6,7 @@ import { IHashProvider } from '@modules/users/providers/HashProvider/models/IHas
 import { injectable, inject } from 'tsyringe';
 import dayjs from 'dayjs';
 import { IUsersTokensRepository } from '../repositories/IUsersTokensRepository';
+import { Permission } from '../infra/typeorm/entities/Permission'
 
 interface IRequest {
     username: string;
@@ -15,7 +16,9 @@ interface IRequest {
 interface IResponse {
     user: {
         name: string;
+        username: string;
         email: string;
+        permissions: Permission[]
     };
     token: string;
     refreshToken: string;
@@ -38,7 +41,7 @@ export class AuthenticateUserService {
         const user = await this.usersRepository.findByUsername(username);
 
         if (!user) {
-            throw new AppError('Incorrect email/password combination', 401);
+            throw new AppError('Username ou a senha invalidos', 401);
         }
 
         const passwordMatched = await this.hashProvider.compareHash(
@@ -47,7 +50,7 @@ export class AuthenticateUserService {
         );
 
         if (!passwordMatched) {
-            throw new AppError('Incorrect email/password combination', 401);
+            throw new AppError('Username ou a senha invalidos', 401);
         }
 
         const { secret, expiresIn, refreshTokenSecret, expiresInRefreshToken } =
@@ -75,7 +78,9 @@ export class AuthenticateUserService {
             token,
             user: {
                 name: user.name,
+                username: user.username,
                 email: user.email,
+                permissions: user.permissions
             },
             refreshToken,
         };

@@ -72,4 +72,8 @@ export class ProductsRepository implements IProductsRepository {
     async delete(id: string): Promise<void> {
         await this.ormRepository.softDelete(id);
     }
+
+    async save(product: Product): Promise<Product> {
+        return this.ormRepository.save(product);
+    }
 }

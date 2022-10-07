@@ -1,7 +1,9 @@
 export interface UpdateProductDTO {
     id: string;
     name: string;
-    images: string;
-    points: number;
+    description: string;
+    price: number;
+    creditPoints: number;
+    debitPoints: number;
     userId: string;
 }

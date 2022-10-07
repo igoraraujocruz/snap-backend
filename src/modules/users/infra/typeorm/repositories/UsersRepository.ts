@@ -1,8 +1,9 @@
-import { getRepository, Repository } from 'typeorm';
+import { EntityRepository, getRepository, Repository } from 'typeorm';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import BaseRepository from '@shared/infra/typeorm/repositories/BaseRepository';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 
+@EntityRepository(User)
 export class UsersRepository
     extends BaseRepository<User>
     implements IUsersRepository
@@ -30,6 +31,7 @@ export class UsersRepository
 
         return user;
     }
+    
 
     public async findByMobilePhone(
         mobilePhone: string,

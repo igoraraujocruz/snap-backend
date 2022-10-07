@@ -3,7 +3,9 @@ import { container } from 'tsyringe';
 import { CreateUserService } from '@modules/users/services/CreateUserService';
 import { DeleteUserService } from '@modules/users/services/DeleteUserService';
 import { UpdateUserService } from '@modules/users/services/UpdateUserService';
-import { GetUserService } from '@modules/users/services/GetUserService';
+import { UpdateUserPermissionService } from '@modules/users/services/UpdateUserPermissionService';
+import { GetUsersService } from '@modules/users/services/GetUsersService';
+import { GetMyUserService } from '@modules/users/services/GetMyUserService';
 import { classToClass } from 'class-transformer';
 import { SearchUserService } from '@modules/users/services/SearchUserService';
 
@@ -12,7 +14,7 @@ export class UsersController {
         request: Request,
         response: Response,
     ): Promise<Response> {
-        const { name, username, password, email, mobilePhone } = request.body;
+        const { name, username, password, email, mobilePhone, permissions } = request.body;
 
         const createUser = container.resolve(CreateUserService);
 
@@ -22,6 +24,7 @@ export class UsersController {
             password,
             email,
             mobilePhone,
+            permissions
         });
 
         return response.status(200).json(classToClass(user));
@@ -65,9 +68,38 @@ export class UsersController {
         return response.json(classToClass(userUpdated));
     }
 
-    public async get(request: Request, response: Response): Promise<Response> {
+    public async updatePermissions(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
         const { id } = request.params;
-        const findUser = container.resolve(GetUserService);
+        const { permissions } = request.body;
+
+        console.log(permissions)
+
+        const updateUserPermission = container.resolve(UpdateUserPermissionService);
+
+        const userPermissionUpdated = await updateUserPermission.execute({
+            id,
+            permissions
+        });
+
+        return response.json(classToClass(userPermissionUpdated));
+    }
+
+    public async getUsers(request: Request, response: Response): Promise<Response> {
+        const { id } = request.params
+        const findUsers = container.resolve(GetUsersService);
+
+        const users = await findUsers.execute(id);
+
+        return response.json(classToClass(users));
+    }
+
+    public async getMyUser(request: Request, response: Response): Promise<Response> {
+        const { id } = request.user
+
+        const findUser = container.resolve(GetMyUserService);
 
         const user = await findUser.execute(id);
 

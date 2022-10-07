@@ -4,12 +4,15 @@ import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { CreateUserDTO } from '@modules/users/dtos/CreateUserDTO';
 import { AppError } from '@shared/errors/AppError';
 import { hash } from 'bcryptjs';
+import { IPermissionsRepository } from '../repositories/IPermissionsRepository';
 
 @injectable()
 export class CreateUserService {
     constructor(
         @inject('UsersRepository')
         private usersRepository: IUsersRepository,
+        @inject('PermissionsRepository')
+        private permissionsRepository: IPermissionsRepository,
     ) {}
 
     public async execute({
@@ -18,6 +21,7 @@ export class CreateUserService {
         mobilePhone,
         password,
         username,
+        permissions,
     }: CreateUserDTO): Promise<User> {
         const usernameExist = await this.usersRepository.findByUsername(
             username,
@@ -28,6 +32,8 @@ export class CreateUserService {
         const mobilePhoneExist = await this.usersRepository.findByMobilePhone(
             mobilePhone,
         );
+
+        const findPermissions = await this.permissionsRepository.findMany(permissions)
 
         if (usernameExist) {
             throw new AppError('This username already exist');
@@ -41,6 +47,10 @@ export class CreateUserService {
             throw new AppError('This mobile Phone already exist');
         }
 
+        if (findPermissions.length !== permissions.length) {
+            throw new AppError('Permission not found');
+        }
+
         const hashedPassword = await hash(password, 8);
 
         const user = await this.usersRepository.create({
@@ -49,6 +59,7 @@ export class CreateUserService {
             mobilePhone,
             password: hashedPassword,
             username,
+            permissions: findPermissions
         });
 
         return user;

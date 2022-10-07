@@ -4,4 +4,5 @@ export interface CreateUserDTO {
     password: string;
     email: string;
     mobilePhone: string;
+    permissions: string[];
 }

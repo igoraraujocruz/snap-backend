@@ -10,4 +10,5 @@ export interface IProductsRepository {
     create(product: CreateProductDTO): Promise<Product>;
     findAllByName(name: string): Promise<Product[]>;
     delete(id: string): Promise<void>;
+    save(product: Product): Promise<Product>;
 }
