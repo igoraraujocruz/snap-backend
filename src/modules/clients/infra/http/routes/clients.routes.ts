@@ -30,7 +30,7 @@ clientsRouter.delete(
             id: Joi.string().uuid().required(),
         },
     }),
-    clientsController.remove,
+    clientsController.delete,
 );
 
 clientsRouter.put(
@@ -43,7 +43,7 @@ clientsRouter.put(
         },
         [Segments.BODY]: {
             name: Joi.string(),
-            cpf: Joi.string().regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/),
+            cpf: Joi.string(),
             email: Joi.string().email(),
             birthday: Joi.date(),
             mobilePhone: Joi.string().max(13),
@@ -53,25 +53,16 @@ clientsRouter.put(
 );
 
 clientsRouter.get(
-    '/:id?',
+    '/',
     ensureAuthenticated,
     can(['Listar Cliente']),
     celebrate({
-        [Segments.PARAMS]: {
-            id: Joi.string().uuid(),
+        [Segments.QUERY]: {
+            clientId: Joi.string().uuid(),
+            option: Joi.string(),
+            page: Joi.number(),
+            clientsPerPage: Joi.number()
         },
     }),
     clientsController.get,
-);
-
-clientsRouter.get(
-    '/search/:option?',
-    ensureAuthenticated,
-    can(['Listar Cliente']),
-    celebrate({
-        [Segments.PARAMS]: {
-            option: Joi.string(),
-        },
-    }),
-    clientsController.search,
 );

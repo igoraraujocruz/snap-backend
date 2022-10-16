@@ -17,7 +17,7 @@ export class ShopRepository implements IShopRepository {
         typeOfPayment,
         userId,
     }: CreateShopDTO): Promise<Shop> {
-        const shop = this.ormRepository.create({
+        const shopCreated = this.ormRepository.create({
             quantity,
             clientId,
             productId,
@@ -25,7 +25,7 @@ export class ShopRepository implements IShopRepository {
             userId,
         });
 
-        const shopCreated = await this.ormRepository.save(shop);
+        await this.ormRepository.save(shopCreated);
 
         return shopCreated;
     }

@@ -6,6 +6,11 @@ import { AppError } from '@shared/errors/AppError';
 import { hash } from 'bcryptjs';
 import { IPermissionsRepository } from '../repositories/IPermissionsRepository';
 
+type ICreate = Omit<CreateUserDTO, 'permissions'>
+interface ICreateWithPermissions extends ICreate {
+    permissions: string[]
+}
+
 @injectable()
 export class CreateUserService {
     constructor(
@@ -21,8 +26,8 @@ export class CreateUserService {
         mobilePhone,
         password,
         username,
-        permissions,
-    }: CreateUserDTO): Promise<User> {
+        permissions
+    }: ICreateWithPermissions): Promise<User> {
         const usernameExist = await this.usersRepository.findByUsername(
             username,
         );

@@ -1,7 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { IProductsRepository } from '@modules/products/repositories/IProductsRepository';
-import { AppError } from '@shared/errors/AppError';
-import { Product } from '../infra/typeorm/entities/Product';
+import { ProductsAndQuantityOfProducts } from '@modules/clients/dtos/ProductsAndQuantityOfProducts';
 
 @injectable()
 export class GetProductService {
@@ -10,8 +9,9 @@ export class GetProductService {
         private productsRepository: IProductsRepository,
     ) {}
 
-    public async execute(): Promise<Product[]> {
-        const products = await this.productsRepository.findAll();
+    public async execute(page?: number, perPage?: number): Promise<ProductsAndQuantityOfProducts> {
+
+        const products = await this.productsRepository.findAll(page, perPage);
 
         return products;
     }

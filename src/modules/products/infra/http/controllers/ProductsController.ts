@@ -7,9 +7,9 @@ import { UpdateProductService } from '@modules/products/services/UpdateProductSe
 import { GetProductService } from '@modules/products/services/GetProductService';
 import { classToClass } from 'class-transformer';
 import slugify from 'slugify';
-import { SearchProductService } from '@modules/products/services/SearchProductService';
 import { GetProductBySlugService } from '@modules/products/services/GetProductBySlugService';
 import { GetProductByIdService } from '@modules/products/services/GetProductByIdService';
+import { FindProductsServices } from '@modules/products/services/FindProductsServices';
 
 export class ProductsController {
     public async create(
@@ -84,12 +84,12 @@ export class ProductsController {
     }
 
     public async get(request: Request, response: Response): Promise<Response> {
-        const { productSlug, productId } = request.query as Record<string, string>;
+        const { option, productSlug, productId, page, perPage } = request.query;
 
         if (productSlug) {
             const findProduct = container.resolve(GetProductBySlugService);
 
-            const product = await findProduct.execute(productSlug);
+            const product = await findProduct.execute(String(productSlug));
 
             return response.json(classToClass(product));
         }
@@ -97,28 +97,23 @@ export class ProductsController {
         if (productId) {
             const findProduct = container.resolve(GetProductByIdService);
 
-            const product = await findProduct.execute(productId);
+            const product = await findProduct.execute(String(productId));
+
+            return response.json(classToClass(product));
+        }
+
+        if (option) {
+            const findProduct = container.resolve(FindProductsServices);
+
+            const product = await findProduct.execute(String(option));
 
             return response.json(classToClass(product));
         }
 
         const findAllProducts = container.resolve(GetProductService);
 
-        const products = await findAllProducts.execute();
+        const products = await findAllProducts.execute(Number(page), Number(perPage));
 
         return response.json(classToClass(products));
-    }
-
-    public async search(
-        request: Request,
-        response: Response,
-    ): Promise<Response> {
-        const { option } = request.params;
-
-        const findProduct = container.resolve(SearchProductService);
-
-        const product = await findProduct.execute(option);
-
-        return response.json(classToClass(product));
     }
 }

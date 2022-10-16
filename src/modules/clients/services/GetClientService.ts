@@ -1,31 +1,18 @@
 import { inject, injectable } from 'tsyringe';
-import { BaseService } from '@shared/services/BaseService';
-import { Client } from '@modules/clients/infra/typeorm/entities/Client';
 import { IClientsRepository } from '@modules/clients/repositories/IClientsRepository';
-import { AppError } from '@shared/errors/AppError';
+import { Client } from '../infra/typeorm/entities/Client';
 
 @injectable()
-export class GetClientService extends BaseService<Client> {
+export class GetClientService {
     constructor(
         @inject('ClientsRepository')
         private clientsRepository: IClientsRepository,
-    ) {
-        super(clientsRepository);
-    }
+    ) {}
 
-    public async execute(id?: string): Promise<Client | Client[]> {
-        if (id) {
-            const client = await this.clientsRepository.findById(id);
+    public async execute(clientId: string): Promise<Client | undefined> {
 
-            if (!client) {
-                throw new AppError('Client not found');
-            }
+        const client = await this.clientsRepository.findById(clientId);
 
-            return client;
-        }
-
-        const clients = await this.clientsRepository.findAll();
-
-        return clients;
+        return client;
     }
 }

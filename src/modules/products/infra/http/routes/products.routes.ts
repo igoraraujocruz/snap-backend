@@ -62,17 +62,10 @@ productsRouter.get(
         [Segments.QUERY]: {
             productSlug: Joi.string(),
             productId: Joi.string().uuid(),
+            option: Joi.string(),
+            page: Joi.number(),
+            perPage: Joi.number()
         },
     }),
     productsController.get,
-);
-
-productsRouter.get(
-    '/search/:option?',
-    celebrate({
-        [Segments.PARAMS]: {
-            option: Joi.string(),
-        },
-    }),
-    productsController.search,
 );

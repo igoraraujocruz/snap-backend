@@ -3,9 +3,10 @@ import { container } from 'tsyringe';
 import { CreateClientService } from '@modules/clients/services/CreateClientService';
 import { DeleteClientService } from '@modules/clients/services/DeleteClientService';
 import { UpdateClientService } from '@modules/clients/services/UpdateClientService';
-import { GetClientService } from '@modules/clients/services/GetClientService';
+import { GetAllClientsService } from '@modules/clients/services/GetAllClientsService';
 import { classToClass } from 'class-transformer';
-import { SearchClientService } from '@modules/clients/services/SearchClientService';
+import { GetClientService } from '@modules/clients/services/GetClientService';
+import { FindClientsService } from '@modules/clients/services/FindClientsService';
 
 export class ClientsController {
     public async create(
@@ -27,7 +28,7 @@ export class ClientsController {
         return response.status(200).json(classToClass(client));
     }
 
-    public async remove(
+    public async delete(
         request: Request,
         response: Response,
     ): Promise<Response> {
@@ -36,7 +37,7 @@ export class ClientsController {
 
             const deleteClient = container.resolve(DeleteClientService);
 
-            const clientDeleted = await deleteClient.delete(id);
+            const clientDeleted = await deleteClient.execute(id);
 
             return response.json(classToClass(clientDeleted));
         } catch (error) {
@@ -53,7 +54,7 @@ export class ClientsController {
 
         const updateClient = container.resolve(UpdateClientService);
 
-        const clientUpdated = await updateClient.update({
+        const clientUpdated = await updateClient.execute({
             id,
             name,
             cpf,
@@ -66,21 +67,28 @@ export class ClientsController {
     }
 
     public async get(request: Request, response: Response): Promise<Response> {
-        const { id } = request.params;
-        const findClient = container.resolve(GetClientService);
+        const { clientId, option,  page, clientsPerPage } = request.query;
 
-        const client = await findClient.execute(id);
+        if (clientId) {
+            const findClient = container.resolve(GetClientService);
 
-        return response.json(classToClass(client));
-    }
+            const client = await findClient.execute(String(clientId));
 
-    async search(request: Request, response: Response): Promise<Response> {
-        const { option } = request.params;
+            return response.json(classToClass(client));
+        }
 
-        const findClient = container.resolve(SearchClientService);
+        if (option) {
+            const findClient = container.resolve(FindClientsService);
 
-        const client = await findClient.execute(option);
+            const client = await findClient.execute(String(option));
 
-        return response.json(classToClass(client));
+            return response.json(classToClass(client));
+        }
+
+        const findClients = container.resolve(GetAllClientsService);
+
+        const clients = await findClients.execute(Number(page), Number(clientsPerPage));
+
+        return response.json(classToClass(clients));
     }
 }

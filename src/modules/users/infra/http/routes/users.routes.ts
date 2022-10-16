@@ -18,19 +18,19 @@ usersRouter.post(
             email: Joi.string().email().required(),
             password: Joi.string().min(5).required(),
             mobilePhone: Joi.string().max(11).min(11).required(),
-            permissions: Joi.array().required(),
+            permissions: Joi.array(),
         },
     }),
     usersController.create,
 );
 
 usersRouter.delete(
-    '/:id',
+    '/:userId',
     ensureAuthenticated,
     can(['Deletar Usuario']),
     celebrate({
         [Segments.PARAMS]: {
-            id: Joi.string().uuid().required(),
+            userId: Joi.string().uuid().required(),
         },
     }),
     usersController.remove,
@@ -71,13 +71,16 @@ usersRouter.patch(
 );
 
 usersRouter.get(
-    '/:id?',
+    '/',
     ensureAuthenticated,
     can(['Listar Usuario']),
     celebrate({
-        [Segments.PARAMS]: {
-            id: Joi.string().uuid(),
-        }
+        [Segments.QUERY]: {
+            userId: Joi.string().uuid(),
+            option: Joi.string(),
+            page: Joi.number(),
+            usersPerPage: Joi.number()
+        },
     }),
     usersController.getUsers,
 );
@@ -86,16 +89,4 @@ usersRouter.get(
     '/get/me',
     ensureAuthenticated,
     usersController.getMyUser,
-);
-
-usersRouter.get(
-    '/search/:option?',
-    ensureAuthenticated,
-    can(['Listar Usuario']),
-    celebrate({
-        [Segments.PARAMS]: {
-            option: Joi.string(),
-        },
-    }),
-    usersController.search,
 );

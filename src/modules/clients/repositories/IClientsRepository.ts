@@ -1,7 +1,8 @@
 import { Client } from '@modules/clients/infra/typeorm/entities/Client';
-import { IBaseRepository } from '@shared/repositories/IBaseRepository';
+import { ClientsAndQuantityOfClients } from '../dtos/ClientsAndQuantityOfClients';
+import { CreateClientDTO } from '../dtos/CreateClientDTO';
 
-export interface IClientsRepository extends IBaseRepository<Client> {
+export interface IClientsRepository {
     findByUsername(username: string): Promise<Client | undefined>;
     findByEmail(email: string): Promise<Client | undefined>;
     findByMobilePhone(mobilePhone: string): Promise<Client | undefined>;
@@ -9,4 +10,9 @@ export interface IClientsRepository extends IBaseRepository<Client> {
     addPoints({ points, id }: Pick<Client, 'points' | 'id'>): Promise<void>;
     decreasePoints({ points, id }: Pick<Client, 'points' | 'id'>): Promise<void>;
     findAllByName(name: string): Promise<Client[]>;
+    findById(clientId: string): Promise<Client | undefined>;
+    save(client: Client): Promise<Client>;
+    delete(clientId: string): Promise<void>;
+    findAll(page?: number, clientsPerPage?: number): Promise<ClientsAndQuantityOfClients>
+    create(client: CreateClientDTO): Promise<Client>;
 }

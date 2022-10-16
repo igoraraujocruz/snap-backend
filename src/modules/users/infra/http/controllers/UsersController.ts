@@ -4,10 +4,11 @@ import { CreateUserService } from '@modules/users/services/CreateUserService';
 import { DeleteUserService } from '@modules/users/services/DeleteUserService';
 import { UpdateUserService } from '@modules/users/services/UpdateUserService';
 import { UpdateUserPermissionService } from '@modules/users/services/UpdateUserPermissionService';
-import { GetUsersService } from '@modules/users/services/GetUsersService';
+import { GetAllUsersService } from '@modules/users/services/GetAllUsersService';
 import { GetMyUserService } from '@modules/users/services/GetMyUserService';
 import { classToClass } from 'class-transformer';
-import { SearchUserService } from '@modules/users/services/SearchUserService';
+import { GetUserByUserIdService } from '@modules/users/services/GetUserByUserIdService';
+import { FindUsersService } from '@modules/users/services/FindUsersService';
 
 export class UsersController {
     public async create(
@@ -35,11 +36,11 @@ export class UsersController {
         response: Response,
     ): Promise<Response> {
         try {
-            const { id } = request.params;
+            const { userId } = request.params;
 
             const deleteUser = container.resolve(DeleteUserService);
 
-            const userDeleted = await deleteUser.delete(id);
+            const userDeleted = await deleteUser.execute(userId);
 
             return response.json(classToClass(userDeleted));
         } catch (error) {
@@ -56,7 +57,7 @@ export class UsersController {
 
         const updateUser = container.resolve(UpdateUserService);
 
-        const userUpdated = await updateUser.update({
+        const userUpdated = await updateUser.execute({
             id,
             name,
             username,
@@ -75,8 +76,6 @@ export class UsersController {
         const { id } = request.params;
         const { permissions } = request.body;
 
-        console.log(permissions)
-
         const updateUserPermission = container.resolve(UpdateUserPermissionService);
 
         const userPermissionUpdated = await updateUserPermission.execute({
@@ -88,10 +87,28 @@ export class UsersController {
     }
 
     public async getUsers(request: Request, response: Response): Promise<Response> {
-        const { id } = request.params
-        const findUsers = container.resolve(GetUsersService);
+        const { userId, option, page, usersPerPage } = request.query
 
-        const users = await findUsers.execute(id);
+        if(userId) {
+            const findUser = container.resolve(GetUserByUserIdService);
+
+            const user = await findUser.execute(String(userId));
+
+            return response.json(classToClass(user));
+
+        }
+
+        if (option) {
+            const findUser = container.resolve(FindUsersService);
+
+            const user = await findUser.execute(String(option));
+
+            return response.json(classToClass(user));
+        }
+
+        const findUsers = container.resolve(GetAllUsersService);
+
+        const users = await findUsers.execute(Number(page), Number(usersPerPage));
 
         return response.json(classToClass(users));
     }
@@ -102,16 +119,6 @@ export class UsersController {
         const findUser = container.resolve(GetMyUserService);
 
         const user = await findUser.execute(id);
-
-        return response.json(classToClass(user));
-    }
-
-    async search(request: Request, response: Response): Promise<Response> {
-        const { option } = request.params;
-
-        const findUser = container.resolve(SearchUserService);
-
-        const user = await findUser.execute(option);
 
         return response.json(classToClass(user));
     }

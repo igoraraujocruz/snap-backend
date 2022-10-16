@@ -1,18 +1,15 @@
 import { inject, injectable } from 'tsyringe';
-import { BaseService } from '@shared/services/BaseService';
 import { Client } from '@modules/clients/infra/typeorm/entities/Client';
 import { IClientsRepository } from '@modules/clients/repositories/IClientsRepository';
 import { UpdateClientDTO } from '@modules/clients/dtos/UpdateClientDTO';
 import { AppError } from '@shared/errors/AppError';
 
 @injectable()
-export class UpdateClientService extends BaseService<Client> {
+export class UpdateClientService {
     constructor(
         @inject('ClientsRepository')
         private clientsRepository: IClientsRepository,
-    ) {
-        super(clientsRepository);
-    }
+    ) {}
 
     public async execute({
         id,

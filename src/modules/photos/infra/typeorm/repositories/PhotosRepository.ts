@@ -13,9 +13,9 @@ export class PhotosRepository implements IPhotosRepository {
     async create({ name, productId }: CreatePhotoDTO): Promise<Photo> {
         const photo = this.ormRepository.create({ name, productId });
 
-        const photoSaved = await this.ormRepository.save(photo);
+        await this.ormRepository.save(photo);
 
-        return photoSaved;
+        return photo;
     }
 
     async findById(id: string): Promise<Photo | undefined> {

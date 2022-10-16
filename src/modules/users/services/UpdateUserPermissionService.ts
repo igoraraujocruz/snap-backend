@@ -21,7 +21,7 @@ export class UpdateUserPermissionService {
         const user = await this.usersRepository.findById(id);
 
         if (!user) {
-            throw new AppError('User not found');
+            throw new AppError('Usuario não encontrado');
         }
 
         const findPermissions = await this.permissionsRepository.findMany(permissions)

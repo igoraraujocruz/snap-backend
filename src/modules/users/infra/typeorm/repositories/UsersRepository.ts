@@ -1,22 +1,59 @@
 import { EntityRepository, getRepository, Repository } from 'typeorm';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
-import BaseRepository from '@shared/infra/typeorm/repositories/BaseRepository';
 import { User } from '@modules/users/infra/typeorm/entities/User';
+import { UsersAndQuantityOfUsers } from '@modules/users/dtos/UsersAndQuantityOfUsers';
 
 @EntityRepository(User)
-export class UsersRepository
-    extends BaseRepository<User>
-    implements IUsersRepository
+export class UsersRepository implements IUsersRepository
 {
-    readonly ormRepository: Repository<User>;
+    private ormRepository: Repository<User>;
 
     constructor() {
-        const repo = getRepository(User);
-        super(repo);
-        this.ormRepository = repo;
+        this.ormRepository = getRepository(User);;
     }
 
-    public async findByUsername(username: string): Promise<User | undefined> {
+    async create(user: User): Promise<User> {
+        const userCreated = this.ormRepository.create(user);
+
+        await this.ormRepository.save(userCreated);
+
+        return userCreated;
+    }
+
+    async findById(userId: string): Promise<User | undefined> {
+        const user = await this.ormRepository.findOne({
+            where: {
+                id: userId
+            }
+        })
+
+        return user;
+    }
+
+    async save(user: User): Promise<User> {
+        return this.ormRepository.save(user);
+    }
+
+    async delete(userId: string): Promise<void> {
+        await this.ormRepository.softDelete(userId);
+    }
+
+    async findAll(page: number, usersPerPage: number): Promise<UsersAndQuantityOfUsers> {
+
+        const quantityOfUsers = await this.ormRepository.find();
+
+        const item = await this.ormRepository.find({
+            take: usersPerPage,
+            skip: (page - 1) * usersPerPage
+        });
+
+        return {
+            quantityOfUsers: quantityOfUsers.length,
+            users: item
+        };
+    }
+
+    async findByUsername(username: string): Promise<User | undefined> {
         const item = await this.ormRepository.findOne({
             where: { username },
         });
@@ -24,7 +61,23 @@ export class UsersRepository
         return item;
     }
 
-    public async findByEmail(email: string): Promise<User | undefined> {
+    async findByName(option: string): Promise<User[]> {
+        const users = this.ormRepository.createQueryBuilder('user')
+        .where('LOWER(user.name) = LOWER(:name)', { name: option})
+        .getMany();
+
+        return users;
+    }
+
+    async findAllUsersByUsername(option: string): Promise<User[]> {
+        const users = this.ormRepository.createQueryBuilder('user')
+        .where('LOWER(user.username) = LOWER(:username)', { username: option })
+        .getMany();
+
+        return users;
+    }
+
+    async findByEmail(email: string): Promise<User | undefined> {
         const user = await this.ormRepository.findOne({
             email,
         });
@@ -33,21 +86,12 @@ export class UsersRepository
     }
     
 
-    public async findByMobilePhone(
+    async findByMobilePhone(
         mobilePhone: string,
     ): Promise<User | undefined> {
         const item = await this.ormRepository.findOne({
             where: { mobilePhone },
         });
-
-        return item;
-    }
-
-    async findAllByName(name: string): Promise<User[]> {
-        const item = this.ormRepository
-        .createQueryBuilder('user')
-        .where('LOWER(user.name) = LOWER(:name)', { name })
-        .getMany();
 
         return item;
     }
