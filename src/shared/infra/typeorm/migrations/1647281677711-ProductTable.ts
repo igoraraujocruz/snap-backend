@@ -32,7 +32,7 @@ export class ProductTable1647281677711 implements MigrationInterface {
                     },
                     {
                         name: 'price',
-                        type: 'int',
+                        type: 'decimal',
                     },
                     {
                         name: 'creditPoints',

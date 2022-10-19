@@ -1,7 +1,6 @@
 import { EntityRepository, getRepository, Repository } from 'typeorm';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { User } from '@modules/users/infra/typeorm/entities/User';
-import { UsersAndQuantityOfUsers } from '@modules/users/dtos/UsersAndQuantityOfUsers';
 
 @EntityRepository(User)
 export class UsersRepository implements IUsersRepository
@@ -38,19 +37,13 @@ export class UsersRepository implements IUsersRepository
         await this.ormRepository.softDelete(userId);
     }
 
-    async findAll(page: number, usersPerPage: number): Promise<UsersAndQuantityOfUsers> {
-
-        const quantityOfUsers = await this.ormRepository.find();
-
-        const item = await this.ormRepository.find({
+    async findAll(page: number, usersPerPage: number): Promise<User[]> {
+        const users = await this.ormRepository.find({
             take: usersPerPage,
             skip: (page - 1) * usersPerPage
         });
 
-        return {
-            quantityOfUsers: quantityOfUsers.length,
-            users: item
-        };
+        return users;
     }
 
     async findByUsername(username: string): Promise<User | undefined> {

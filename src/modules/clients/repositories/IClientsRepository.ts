@@ -1,5 +1,4 @@
 import { Client } from '@modules/clients/infra/typeorm/entities/Client';
-import { ClientsAndQuantityOfClients } from '../dtos/ClientsAndQuantityOfClients';
 import { CreateClientDTO } from '../dtos/CreateClientDTO';
 
 export interface IClientsRepository {
@@ -13,6 +12,6 @@ export interface IClientsRepository {
     findById(clientId: string): Promise<Client | undefined>;
     save(client: Client): Promise<Client>;
     delete(clientId: string): Promise<void>;
-    findAll(page?: number, clientsPerPage?: number): Promise<ClientsAndQuantityOfClients>
+    findAll(page?: number, clientsPerPage?: number): Promise<Client[]>
     create(client: CreateClientDTO): Promise<Client>;
 }

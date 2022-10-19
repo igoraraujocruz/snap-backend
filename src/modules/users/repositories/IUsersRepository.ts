@@ -1,6 +1,5 @@
 import { User } from '@modules/users/infra/typeorm/entities/User';
 import { CreateUserDTO } from '../dtos/CreateUserDTO';
-import { UsersAndQuantityOfUsers } from '../dtos/UsersAndQuantityOfUsers';
 
 export interface IUsersRepository {
     findByUsername(username: string): Promise<User | undefined>;
@@ -9,7 +8,7 @@ export interface IUsersRepository {
     findByMobilePhone(mobilePhone: string): Promise<User | undefined>;
     create({ name, password, email, mobilePhone, permissions, username}: CreateUserDTO): Promise<User>;
     findById(userId: string): Promise<User | undefined>;
-    findAll(page?: number, usersPerPage?: number): Promise<UsersAndQuantityOfUsers>
+    findAll(page?: number, usersPerPage?: number): Promise<User[]>
     save(client: User): Promise<User>;
     delete(userId: string): Promise<void>;
     findAllUsersByUsername(username: string): Promise<User[]>

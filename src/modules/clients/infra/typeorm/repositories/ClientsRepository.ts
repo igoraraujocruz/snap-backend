@@ -2,7 +2,6 @@ import { getRepository, Repository } from 'typeorm';
 import { IClientsRepository } from '@modules/clients/repositories/IClientsRepository';
 import { Client } from '@modules/clients/infra/typeorm/entities/Client';
 import { AppError } from '@shared/errors/AppError';
-import { ClientsAndQuantityOfClients } from '@modules/clients/dtos/ClientsAndQuantityOfClients';
 import { CreateClientDTO } from '@modules/clients/dtos/CreateClientDTO';
 
 export class ClientsRepository implements IClientsRepository
@@ -63,18 +62,14 @@ export class ClientsRepository implements IClientsRepository
         return item;
     }
 
-    async findAll(page: number, clientsPerPage: number): Promise<ClientsAndQuantityOfClients> {
-        const quantityOfClient = await this.ormRepository.find();
-
+    async findAll(page: number, clientsPerPage: number): Promise<Client[]> {
         const clients = await this.ormRepository.find({
             take: clientsPerPage,
             skip: (page - 1) * clientsPerPage
         });
 
-        return {
-            quantityOfClient: quantityOfClient.length,
-            clients: clients
-        };
+        return clients
+        
     }
 
     async save(client: Client): Promise<Client> {

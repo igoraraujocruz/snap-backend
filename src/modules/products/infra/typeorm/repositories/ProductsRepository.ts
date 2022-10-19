@@ -2,7 +2,6 @@ import { getRepository, Repository } from 'typeorm';
 import { IProductsRepository } from '@modules/products/repositories/IProductsRepository';
 import { Product } from '@modules/products/infra/typeorm/entities/Product';
 import { CreateProductDTO } from '@modules/products/dtos/CreateProductDTO';
-import { ProductsAndQuantityOfProducts } from '@modules/clients/dtos/ProductsAndQuantityOfProducts';
 
 export class ProductsRepository implements IProductsRepository {
     private ormRepository: Repository<Product>;
@@ -19,19 +18,14 @@ export class ProductsRepository implements IProductsRepository {
         return productCreated;
     }
 
-    async findAll(page: number, perPage: number): Promise<ProductsAndQuantityOfProducts> {
+    async findAll(page: number, perPage: number): Promise<Product[]> {
 
-        const quantityOfProduct = await this.ormRepository.find();
-
-        const item = await this.ormRepository.find({
+        const products = await this.ormRepository.find({
             take: perPage,
             skip: (page - 1) * perPage
         });
 
-        return {
-            quantityOfProduct: quantityOfProduct.length,
-            products: item
-        };
+        return products
     
     }
 
