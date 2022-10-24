@@ -6,8 +6,4 @@ import { ensureAuthenticated } from '../middlewares/ensureAuthenticated';
 export const permissionsRouter = Router();
 const permissionsController = new PermissionsController();
 
-permissionsRouter.get(
-    '/',
-    ensureAuthenticated,
-    permissionsController.list,
-);
+permissionsRouter.get('/', ensureAuthenticated, permissionsController.list);

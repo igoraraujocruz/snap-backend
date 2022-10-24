@@ -34,7 +34,7 @@ export class Client {
     birthday: Date;
 
     @OneToMany(() => Shop, shop => shop.client, {
-        eager: true
+        eager: true,
     })
     shop: Shop[];
 

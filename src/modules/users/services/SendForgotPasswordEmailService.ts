@@ -1,9 +1,9 @@
 import { injectable, inject } from 'tsyringe';
 import path from 'path';
-import { AppError } from 'shared/errors/AppError';
-import { IUsersRepository } from 'modules/users/repositories/IUsersRepository';
-import { IMailProvider } from 'shared/container/providers/MailProvider/models/IMailProvider';
-import { IUsersTokensRepository } from 'modules/users/repositories/IUsersTokensRepository';
+import { AppError } from '@shared/errors/AppError';
+import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
+import { IMailProvider } from '@shared/container/providers/MailProvider/models/IMailProvider';
+import { IUsersTokensRepository } from '@modules/users/repositories/IUsersTokensRepository';
 import { v4 as uuid } from 'uuid';
 
 interface IRequest {

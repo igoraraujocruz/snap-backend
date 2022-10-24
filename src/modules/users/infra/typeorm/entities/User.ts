@@ -32,12 +32,12 @@ export class User {
     shop: Shop[];
 
     @ManyToMany(() => Permission, {
-        eager: true
+        eager: true,
     })
     @JoinTable({
-        name: "users_permissions",
-        joinColumns: [{ name: "userId" }],
-        inverseJoinColumns: [{ name: "permissionId" }],
+        name: 'users_permissions',
+        joinColumns: [{ name: 'userId' }],
+        inverseJoinColumns: [{ name: 'permissionId' }],
     })
     permissions: Permission[];
 

@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 import { ClientsController } from '@modules/clients/infra/http/controllers/ClientsController';
-import { can } from '../../../../users/infra/http/middlewares/permissions';
 import { ensureAuthenticated } from '@modules/users/infra/http/middlewares/ensureAuthenticated';
+import { can } from '../../../../users/infra/http/middlewares/permissions';
 
 export const clientsRouter = Router();
 const clientsController = new ClientsController();
@@ -61,7 +61,7 @@ clientsRouter.get(
             clientId: Joi.string().uuid(),
             option: Joi.string(),
             page: Joi.number(),
-            clientsPerPage: Joi.number()
+            clientsPerPage: Joi.number(),
         },
     }),
     clientsController.get,

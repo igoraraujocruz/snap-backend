@@ -43,11 +43,11 @@ export default {
         },
         fileFilter: (request: any, file: any, callback: any) => {
             const formats = ['image/jpg', 'image/jpeg', 'image/png'];
-      
+
             if (formats.includes(file.mimetype)) {
-              callback(null, true);
+                callback(null, true);
             } else {
-              callback(new AppError('Formato não aceito'));
+                callback(new AppError('Formato não aceito'));
             }
         },
     },

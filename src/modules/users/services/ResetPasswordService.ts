@@ -1,9 +1,9 @@
 import { injectable, inject } from 'tsyringe';
 import { isAfter, addHours } from 'date-fns';
-import { AppError } from 'shared/errors/AppError';
-import { IUsersRepository } from 'modules/users/repositories/IUsersRepository';
-import { IUsersTokensRepository } from 'modules/users/repositories/IUsersTokensRepository';
-import { IHashProvider } from 'shared/container/providers/HashProvider/models/IHashProvider';
+import { AppError } from '@shared/errors/AppError';
+import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
+import { IUsersTokensRepository } from '@modules/users/repositories/IUsersTokensRepository';
+import { IHashProvider } from '@shared/container/providers/HashProvider/models/IHashProvider';
 
 interface IRequest {
     password: string;

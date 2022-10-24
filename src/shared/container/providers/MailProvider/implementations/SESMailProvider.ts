@@ -2,12 +2,11 @@ import nodemailer, { Transporter } from 'nodemailer';
 import { injectable, inject } from 'tsyringe';
 import aws from 'aws-sdk';
 
-import mailConfig from 'config/mail';
-
-import { ISendMailDTO } from 'shared/container/providers/MailProvider/dtos/ISendMailDTO';
-import { IMailProvider } from 'shared/container/providers/MailProvider/models/IMailProvider';
+import { ISendMailDTO } from '@shared/container/providers/MailProvider/dtos/ISendMailDTO';
+import { IMailProvider } from '@shared/container/providers/MailProvider/models/IMailProvider';
 
 import { IMailTemplateProvider } from '@shared/container/providers/MailTemplateProvider/models/IMailTemplateProvider';
+import mailConfig from '@config/mail';
 
 @injectable()
 export class SESMailProvider implements IMailProvider {

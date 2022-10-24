@@ -9,7 +9,7 @@ const usersController = new UsersController();
 
 usersRouter.post(
     '/',
-/*     ensureAuthenticated,
+    /*     ensureAuthenticated,
     can(['Cadastrar Usuario']), */
     celebrate({
         [Segments.BODY]: {
@@ -79,14 +79,10 @@ usersRouter.get(
             userId: Joi.string().uuid(),
             option: Joi.string(),
             page: Joi.number(),
-            usersPerPage: Joi.number()
+            usersPerPage: Joi.number(),
         },
     }),
     usersController.getUsers,
 );
 
-usersRouter.get(
-    '/get/me',
-    ensureAuthenticated,
-    usersController.getMyUser,
-);
+usersRouter.get('/get/me', ensureAuthenticated, usersController.getMyUser);

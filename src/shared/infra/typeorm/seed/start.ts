@@ -4,7 +4,7 @@ async function create() {
     const connection = await createConnection();
 
     await connection.query(
-      `INSERT INTO PERMISSIONS(name)
+        `INSERT INTO PERMISSIONS(name)
     values('Listar Produto'),
     ('Editar Produto'),
     ('Cadastrar Produto'),
@@ -18,7 +18,7 @@ async function create() {
     ('Cadastrar Usuario'),
     ('Deletar Usuario')
   `,
-  );
+    );
 
     await connection.close();
 }

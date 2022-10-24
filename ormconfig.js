@@ -1,3 +1,8 @@
+require('dotenv/config');
+
+const dir = process.env.NODE_ENV === 'dev' ? 'src' : 'dist';
+const file = process.env.NODE_ENV === 'dev' ? 'ts' : 'js';
+
 module.exports = {
     type: "postgres",
     host: process.env.POSTGRESQL_HOST,
@@ -6,12 +11,12 @@ module.exports = {
     password: process.env.POSTGRESQL_PASSWORD,
     database: process.env.POSTGRESQL_DATABASE,
     entities: [
-        `./src/modules/**/infra/typeorm/entities/*.ts`
+        `./${dir}/modules/**/infra/typeorm/entities/*.${file}`
     ],
     migrations: [
-        `./src/shared/infra/typeorm/migrations/*.ts`
+        `./${dir}/shared/infra/typeorm/migrations/*.${file}`
     ],
     cli: {
-        "migrationsDir": `./src/shared/infra/typeorm/migrations/`
+        "migrationsDir": `./${dir}/shared/infra/typeorm/migrations/`
     }
 }
