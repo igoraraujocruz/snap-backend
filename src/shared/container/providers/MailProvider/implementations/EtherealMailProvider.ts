@@ -37,8 +37,8 @@ export class EtherealMailProvider implements IMailProvider {
     }: ISendMailDTO): Promise<void> {
         const message = await this.client.sendMail({
             from: {
-                name: from?.name || 'Snap',
-                address: from?.email || 'support@snap.com.br',
+                name: from.name,
+                address: from.email,
             },
             to: {
                 name: to.name,
