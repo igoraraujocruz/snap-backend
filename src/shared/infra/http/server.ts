@@ -13,6 +13,11 @@ import uploadConfig from '@config/upload';
 import cors from 'cors';
 import { rateLimiter } from '@shared/infra/http/middlewares/rateLimiter';
 
+const url =
+    process.env.NODE_ENV === 'dev'
+        ? process.env.WEB_DEV_URL
+        : process.env.WEB_PROD_URL;
+
 const app = express();
 app.use(rateLimiter);
 
@@ -32,7 +37,7 @@ app.use(express.json());
 app.use('/files', express.static(uploadConfig.uploadsFolder));
 app.use(
     cors({
-        origin: process.env.WEB_URL,
+        origin: url,
     }),
 );
 app.use(routes);
