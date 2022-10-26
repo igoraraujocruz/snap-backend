@@ -57,10 +57,6 @@ export class SendForgotPasswordEmailService {
                 name: user.name,
                 email: user.email,
             },
-            from: {
-                name: `${process.env.NAME_TITLE_EMAIL}`,
-                email: `${process.env.EMAIL_CONFIG_AWS}`,
-            },
             subject: '[Snap] Recuperação de senha',
             templateData: {
                 file: forgotPasswordTemplate,
