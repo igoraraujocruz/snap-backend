@@ -55,7 +55,7 @@ export default {
     config: {
         disk: {},
         aws: {
-            bucket: '...',
+            bucket: process.env.AWS_BUCKET,
         },
     },
 } as IUploadConfig;

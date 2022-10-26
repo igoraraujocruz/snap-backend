@@ -2,7 +2,6 @@ import { inject, injectable } from 'tsyringe';
 import { IPhotosRepository } from '@modules/photos/repositories/IPhotosRepository';
 import { IStorageProvider } from '@shared/container/providers/StorageProvider/models/IStorageProviders';
 import { AppError } from '@shared/errors/AppError';
-import { IProductsRepository } from '@modules/products/repositories/IProductsRepository';
 
 @injectable()
 export class DeletePhotoService {
@@ -12,9 +11,6 @@ export class DeletePhotoService {
 
         @inject('StorageProvider')
         private storageProvider: IStorageProvider,
-
-        @inject('ProductsRepository')
-        private productsRepository: IProductsRepository,
     ) {}
 
     public async execute(id: string): Promise<void> {
@@ -26,6 +22,6 @@ export class DeletePhotoService {
 
         await this.photosRepository.delete(photo.id);
 
-        await this.storageProvider.deleteFile(id);
+        await this.storageProvider.deleteFile(photo.name);
     }
 }
