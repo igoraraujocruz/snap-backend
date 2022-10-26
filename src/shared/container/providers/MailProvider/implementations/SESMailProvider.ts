@@ -1,6 +1,6 @@
 import nodemailer, { Transporter } from 'nodemailer';
 import { injectable, inject } from 'tsyringe';
-import aws from 'aws-sdk';
+import { SES } from 'aws-sdk';
 
 import { ISendMailDTO } from '@shared/container/providers/MailProvider/dtos/ISendMailDTO';
 import { IMailProvider } from '@shared/container/providers/MailProvider/models/IMailProvider';
@@ -17,9 +17,9 @@ export class SESMailProvider implements IMailProvider {
         private mailTemplateProvider: IMailTemplateProvider,
     ) {
         this.client = nodemailer.createTransport({
-            SES: new aws.SES({
+            SES: new SES({
                 apiVersion: '2010-12-01',
-                region: 'us-east-1',
+                region: process.env.AWS_REGION,
             }),
         });
     }

@@ -25,7 +25,8 @@ passwordsProvidersRouter.post(
         },
         [Segments.BODY]: {
             password: Joi.string().required().min(5),
-            password_confirmation: Joi.string().min(5)
+            password_confirmation: Joi.string()
+                .min(5)
                 .required()
                 .valid(Joi.ref('password')),
         },
