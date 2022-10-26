@@ -31,8 +31,8 @@ export class SESMailProvider implements IMailProvider {
     }: ISendMailDTO): Promise<void> {
         await this.client.sendMail({
             from: {
-                name: 'snap',
-                address: 'snap@forja.tech',
+                name: from.name,
+                address: from.email,
             },
             to: {
                 name: 'igor',
