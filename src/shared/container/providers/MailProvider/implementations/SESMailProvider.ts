@@ -1,6 +1,7 @@
 import nodemailer, { Transporter } from 'nodemailer';
 import { injectable, inject } from 'tsyringe';
 import { SES } from 'aws-sdk';
+
 import { ISendMailDTO } from '@shared/container/providers/MailProvider/dtos/ISendMailDTO';
 import { IMailProvider } from '@shared/container/providers/MailProvider/models/IMailProvider';
 
@@ -30,12 +31,12 @@ export class SESMailProvider implements IMailProvider {
     }: ISendMailDTO): Promise<void> {
         await this.client.sendMail({
             from: {
-                name: 'snap',
-                address: 'snap@forja.tech',
+                name: from.name,
+                address: from.email,
             },
             to: {
-                name: 'igor',
-                address: 'igoraraujocruzz@gmail.com',
+                name: to.name,
+                address: to.email,
             },
             subject,
             html: await this.mailTemplateProvider.parse(templateData),
