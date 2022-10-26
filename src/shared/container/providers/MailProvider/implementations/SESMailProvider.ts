@@ -31,12 +31,12 @@ export class SESMailProvider implements IMailProvider {
     }: ISendMailDTO): Promise<void> {
         await this.client.sendMail({
             from: {
-                name: from.name,
-                address: from.email,
+                name: 'snap',
+                address: 'snap@forja.tech',
             },
             to: {
-                name: to.name,
-                address: to.email,
+                name: 'igor',
+                address: 'igoraraujocruzz@gmail.com',
             },
             subject,
             html: await this.mailTemplateProvider.parse(templateData),
