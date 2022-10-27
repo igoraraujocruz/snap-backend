@@ -3,12 +3,15 @@ import { User } from '@modules/users/infra/typeorm/entities/User';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { UpdateUserDTO } from '@modules/users/dtos/UpdateUserDTO';
 import { AppError } from '@shared/errors/AppError';
+import { IHashProvider } from '@shared/container/providers/HashProvider/models/IHashProvider';
 
 @injectable()
 export class UpdateUserService {
     constructor(
         @inject('UsersRepository')
         private usersRepository: IUsersRepository,
+        @inject('HashProvider')
+        private hashProvider: IHashProvider,
     ) {}
 
     public async execute({
@@ -25,6 +28,9 @@ export class UpdateUserService {
             throw new AppError('User not found');
         }
 
+        if (user.username === 'admin') {
+            throw new AppError('Não é possível editar o usuário administrador');
+        }
         const userWithUpdatedEmail = await this.usersRepository.findByEmail(
             email,
         );
@@ -43,7 +49,7 @@ export class UpdateUserService {
 
         user.name = name;
         user.email = email;
-        user.password = password;
+        user.password = await this.hashProvider.generateHash(password);
         user.mobilePhone = mobilePhone;
         user.username = username;
 

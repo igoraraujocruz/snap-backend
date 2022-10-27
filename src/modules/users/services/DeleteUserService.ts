@@ -1,7 +1,6 @@
 import { inject, injectable } from 'tsyringe';
-import { BaseService } from '@shared/services/BaseService';
-import { User } from '@modules/users/infra/typeorm/entities/User';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
+import { AppError } from '@shared/errors/AppError';
 
 @injectable()
 export class DeleteUserService {
@@ -11,6 +10,13 @@ export class DeleteUserService {
     ) {}
 
     async execute(userId: string): Promise<void> {
-        return await this.usersRepository.delete(userId)
+        const user = await this.usersRepository.findById(userId);
+
+        if (user?.username === 'admin') {
+            throw new AppError(
+                'Não é possível excluir o usuário administrador',
+            );
+        }
+        await this.usersRepository.delete(userId);
     }
 }

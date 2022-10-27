@@ -6,7 +6,7 @@ import { IHashProvider } from '@modules/users/providers/HashProvider/models/IHas
 import { injectable, inject } from 'tsyringe';
 import dayjs from 'dayjs';
 import { IUsersTokensRepository } from '../repositories/IUsersTokensRepository';
-import { Permission } from '../infra/typeorm/entities/Permission'
+import { Permission } from '../infra/typeorm/entities/Permission';
 
 interface IRequest {
     username: string;
@@ -18,7 +18,7 @@ interface IResponse {
         name: string;
         username: string;
         email: string;
-        permissions: Permission[]
+        permissions: Permission[];
     };
     token: string;
     refreshToken: string;
@@ -80,7 +80,7 @@ export class AuthenticateUserService {
                 name: user.name,
                 username: user.username,
                 email: user.email,
-                permissions: user.permissions
+                permissions: user.permissions,
             },
             refreshToken,
         };
