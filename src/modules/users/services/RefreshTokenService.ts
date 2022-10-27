@@ -23,9 +23,6 @@ export class RefreshTokenService {
     ) {}
 
     public async execute(newRefreshToken: string): Promise<ITokenResponse> {
-        
-
-
         const { email, sub } = verify(
             newRefreshToken,
             auth.jwt.refreshTokenSecret,

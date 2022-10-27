@@ -10,17 +10,18 @@ export class FindUsersService {
     ) {}
 
     public async execute(option: string): Promise<User[] | undefined> {
-
         const nameFound = await this.usersRepository.findByName(option);
 
-        const usernameFound = await this.usersRepository.findAllUsersByUsername(option);
+        const usernameFound = await this.usersRepository.findAllUsersByUsername(
+            option,
+        );
 
         if (nameFound.length > 0) {
-            return nameFound
+            return nameFound;
         }
 
         if (usernameFound.length > 0) {
-            return usernameFound
+            return usernameFound;
         }
     }
 }

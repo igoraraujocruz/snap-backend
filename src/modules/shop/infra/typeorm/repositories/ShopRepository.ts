@@ -38,6 +38,18 @@ export class ShopRepository implements IShopRepository {
         return shop;
     }
 
+    async findById(id: string): Promise<Shop | undefined> {
+        const shop = this.ormRepository.findOne({
+            where: { id },
+        });
+
+        return shop;
+    }
+
+    async delete(id: string): Promise<void> {
+        await this.ormRepository.softDelete(id);
+    }
+
     async findByClientId(clientId: string): Promise<Shop[]> {
         const shop = this.ormRepository.find({
             where: { clientId },

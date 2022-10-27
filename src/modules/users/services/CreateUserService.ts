@@ -6,9 +6,9 @@ import { AppError } from '@shared/errors/AppError';
 import { hash } from 'bcryptjs';
 import { IPermissionsRepository } from '../repositories/IPermissionsRepository';
 
-type ICreate = Omit<CreateUserDTO, 'permissions'>
+type ICreate = Omit<CreateUserDTO, 'permissions'>;
 interface ICreateWithPermissions extends ICreate {
-    permissions: string[]
+    permissions: string[];
 }
 
 @injectable()
@@ -26,7 +26,7 @@ export class CreateUserService {
         mobilePhone,
         password,
         username,
-        permissions
+        permissions,
     }: ICreateWithPermissions): Promise<User> {
         const usernameExist = await this.usersRepository.findByUsername(
             username,
@@ -38,7 +38,9 @@ export class CreateUserService {
             mobilePhone,
         );
 
-        const findPermissions = await this.permissionsRepository.findMany(permissions)
+        const findPermissions = await this.permissionsRepository.findMany(
+            permissions,
+        );
 
         if (usernameExist) {
             throw new AppError('This username already exist');
@@ -64,7 +66,7 @@ export class CreateUserService {
             mobilePhone,
             password: hashedPassword,
             username,
-            permissions: findPermissions
+            permissions: findPermissions,
         });
 
         return user;

@@ -16,7 +16,7 @@ export class UpdateUserPermissionService {
 
     public async execute({
         id,
-        permissions
+        permissions,
     }: UpdateUserPermissionDTO): Promise<User> {
         const user = await this.usersRepository.findById(id);
 
@@ -24,7 +24,9 @@ export class UpdateUserPermissionService {
             throw new AppError('Usuario não encontrado');
         }
 
-        const findPermissions = await this.permissionsRepository.findMany(permissions)
+        const findPermissions = await this.permissionsRepository.findMany(
+            permissions,
+        );
 
         user.permissions = findPermissions;
 

@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
-import { UsersAndQuantityOfUsers } from '../dtos/UsersAndQuantityOfUsers';
+import { User } from '../infra/typeorm/entities/User';
 
 @injectable()
 export class GetAllUsersService {
@@ -9,8 +9,10 @@ export class GetAllUsersService {
         private usersRepository: IUsersRepository,
     ) {}
 
-    public async execute(page?: number, usersPerPage?: number): Promise<UsersAndQuantityOfUsers> {
-
+    public async execute(
+        page?: number,
+        usersPerPage?: number,
+    ): Promise<User[]> {
         const users = await this.usersRepository.findAll(page, usersPerPage);
 
         return users;

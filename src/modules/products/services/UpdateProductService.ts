@@ -29,7 +29,10 @@ export class UpdateProductService {
         const productNameAlreadyExist =
             await this.productsRepository.findByName(name);
 
-        if(id !== productNameAlreadyExist?.id && name === productNameAlreadyExist?.name) {
+        if (
+            id !== productNameAlreadyExist?.id &&
+            name === productNameAlreadyExist?.name
+        ) {
             throw new AppError('O nome do produto já está em uso');
         }
 

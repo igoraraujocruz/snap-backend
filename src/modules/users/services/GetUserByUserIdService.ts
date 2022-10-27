@@ -10,7 +10,6 @@ export class GetUserByUserIdService {
     ) {}
 
     public async execute(userId: string): Promise<User | undefined> {
-
         const users = await this.usersRepository.findById(userId);
 
         return users;

@@ -10,7 +10,6 @@ export class GetClientService {
     ) {}
 
     public async execute(clientId: string): Promise<Client | undefined> {
-
         const client = await this.clientsRepository.findById(clientId);
 
         return client;

@@ -2,7 +2,6 @@ import { inject, injectable } from 'tsyringe';
 import { Product } from '@modules/products/infra/typeorm/entities/Product';
 import { IProductsRepository } from '@modules/products/repositories/IProductsRepository';
 import { CreateProductDTO } from '@modules/products/dtos/CreateProductDTO';
-import { AppError } from '@shared/errors/AppError';
 import slugify from 'slugify';
 
 @injectable()
@@ -21,7 +20,6 @@ export class CreateProductService {
         debitPoints,
         userId,
     }: CreateProductDTO): Promise<Product> {
-        
         const slugAlreadyExist = await this.productsRepository.findBySlug(slug);
 
         if (slugAlreadyExist) {

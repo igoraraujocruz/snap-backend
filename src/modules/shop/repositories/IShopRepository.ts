@@ -19,4 +19,8 @@ export interface IShopRepository {
     findByTypeOfPayment(typeOfPayment: string): Promise<Shop[]>;
 
     findAll(): Promise<Shop[]>;
+
+    findById(id: string): Promise<Shop | undefined>;
+
+    delete(id: string): Promise<void>;
 }

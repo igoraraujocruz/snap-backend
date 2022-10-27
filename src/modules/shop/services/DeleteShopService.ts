@@ -1,14 +1,21 @@
 import { inject, injectable } from 'tsyringe';
-import { BaseService } from '@shared/services/BaseService';
-import { Shop } from '@modules/shop/infra/typeorm/entities/Shop';
 import { IShopRepository } from '@modules/shop/repositories/IShopRepository';
+import { AppError } from '@shared/errors/AppError';
 
 @injectable()
-export class DeleteShopService extends BaseService<Shop> {
+export class DeleteShopService {
     constructor(
         @inject('ShopRepository')
         private shopRepository: IShopRepository,
-    ) {
-        super(shopRepository);
+    ) {}
+
+    async execute(userId: string): Promise<void> {
+        const shop = await this.shopRepository.findByUserId(userId);
+
+        if (!shop) {
+            throw new AppError('Compra não encontrada');
+        }
+
+        await this.shopRepository.delete(userId);
     }
 }

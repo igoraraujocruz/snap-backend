@@ -9,6 +9,6 @@ export class DeleteClientService {
     ) {}
 
     async execute(clientId: string): Promise<void> {
-        await this.clientsRepository.delete(clientId)
+        await this.clientsRepository.delete(clientId);
     }
 }

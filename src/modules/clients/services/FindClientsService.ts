@@ -10,7 +10,6 @@ export class FindClientsService {
     ) {}
 
     public async execute(option: string): Promise<Client[]> {
-
         const nameFound = await this.clientsRepository.findAllByName(option);
 
         return nameFound;

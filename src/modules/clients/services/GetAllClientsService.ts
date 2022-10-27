@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { IClientsRepository } from '@modules/clients/repositories/IClientsRepository';
-import { ClientsAndQuantityOfClients } from '../dtos/ClientsAndQuantityOfClients';
+import { Client } from '../infra/typeorm/entities/Client';
 
 @injectable()
 export class GetAllClientsService {
@@ -9,8 +9,14 @@ export class GetAllClientsService {
         private clientsRepository: IClientsRepository,
     ) {}
 
-    public async execute(page?: number, clientsPerPage?: number): Promise<ClientsAndQuantityOfClients> {
-        const clients = await this.clientsRepository.findAll(page, clientsPerPage);
+    public async execute(
+        page?: number,
+        clientsPerPage?: number,
+    ): Promise<Client[]> {
+        const clients = await this.clientsRepository.findAll(
+            page,
+            clientsPerPage,
+        );
 
         return clients;
     }

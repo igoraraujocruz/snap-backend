@@ -9,8 +9,7 @@ export class GetShopService {
         private shopRepository: IShopRepository,
     ) {}
 
-    public async execute(
-        clientId: string): Promise<Shop[]> {
+    public async execute(clientId: string): Promise<Shop[]> {
         if (clientId) {
             const client = await this.shopRepository.findByClientId(clientId);
             return client;
