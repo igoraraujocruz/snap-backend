@@ -1,0 +1,144 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+	    "title": "Snap Documentation",
+		"description": "Plataform for shop",
+		"version": "1.0.0",
+		"contact": {
+		    "email": "igoraraujocruzz@gmail.com"
+		}
+	},
+	"paths": {
+        "/sessions": {
+			"post": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+				"tags": ["Authentication"],
+				"summary": "Authentication user",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+                                    "username": {
+										"type": "string"
+									},
+                                    "password": {
+										"type": "string"
+									}                            
+								},
+								"example": {
+									"username": "johnjohn",
+                                    "password": "123456"
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"name": "John Doe",
+                        "username": "johnjohn",
+                        "password": "123456",
+                        "email": "johndoe@email.com",
+                        "mobilePhone": "27999999999",
+                        "permissions": [
+                            {
+                                "id": "65asd165d1a65da5sd4a65d4a65d465aw4",
+                                "name": "Cadastrar Usuario"
+                            },
+                            {
+                                "id": "asdjoauidjoaijdoiajsdoiajiuwhaida56",
+                                "name": "Listar Usuario"
+                            }
+                    
+                        ],
+                        "token": "uhdiuashdiuashdiusahdiuhIUDHSiyghduysaghdoiajdsauh",
+                        "refreshToken": "IASUHDAIUSDHIUhdhIUHSDIUAHDIUHiuhsdaihIUHDSAIUDHIASDUH"
+					}
+				}
+			}
+		},
+		"/users": {
+			"post": {
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+				"tags": ["User"],
+				"summary": "Create user",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string"
+									},
+                                    "username": {
+										"type": "string"
+									},
+                                    "password": {
+										"type": "string"
+									},
+                                    "email": {
+										"type": "string"
+									},
+                                    "mobilePhone": {
+										"type": "string"
+									},
+                                    "permissions": {
+										"type": ["string"]
+									}
+								},
+								"example": {
+									"name": "John Doe",
+									"username": "johnjohn",
+                                    "password": "123456",
+                                    "email": "johndoe@email.com",
+                                    "mobilePhone": "27999999999",
+                                    "permissions": ["Cadastrar Usuario", "Listar Usuario"]
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"name": "John Doe",
+                        "username": "johnjohn",
+                        "password": "123456",
+                        "email": "johndoe@email.com",
+                        "mobilePhone": "27999999999",
+                        "permissions": [
+                            {
+                                "id": "65asd165d1a65da5sd4a65d4a65d465aw4",
+                                "name": "Cadastrar Usuario"
+                            },
+                            {
+                                "id": "asdjoauidjoaijdoiajsdoiajiuwhaida56",
+                                "name": "Listar Usuario"
+                            }
+                    
+                        ]
+					}
+				}
+			}
+		}
+	},
+    "components": {
+        "securitySchemes": {
+          "bearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+          }
+        }
+    }
+}

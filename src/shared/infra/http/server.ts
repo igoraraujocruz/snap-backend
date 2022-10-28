@@ -12,6 +12,8 @@ import { isCelebrateError } from 'celebrate';
 import uploadConfig from '@config/upload';
 import cors from 'cors';
 import { rateLimiter } from '@shared/infra/http/middlewares/rateLimiter';
+import swaggerUI from 'swagger-ui-express';
+import * as swaggerDocument from '@shared/infra/swagger/swagger.json';
 
 const url =
     process.env.NODE_ENV === 'dev'
@@ -19,6 +21,7 @@ const url =
         : process.env.WEB_PROD_URL;
 
 const app = express();
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use(rateLimiter);
 
 Sentry.init({
