@@ -29,8 +29,8 @@ Antes de começar você deve ter instalado em sua máquina o [Docker-compose](ht
 
 ```bash
 # Clone o repositório e acesse a pasta pelo terminal
-$ git clone https://github.com/igoraraujocruz/snap-api
-$ cd snap-api
+$ git clone https://github.com/igoraraujocruz/snap-backend
+$ cd snap-backend
 
 # Crie um arquivo .env na raiz do projeto, copie todo o conteúdo do arquivo .env.exemple e cole no .env para "setarmos" as variáveis de ambiente, ou insira as variáveis que preferir.
 
