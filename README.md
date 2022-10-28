@@ -1,15 +1,24 @@
 <h1 align="center">Loja de Pontos</h1>
-<p align="center">Chegou até a mim que uma empresa precisava de um sistema que pudesse computar pontos a cada compra feita. e é disso que essa API se trata!</p>
+<p align="center">Chegou até a mim que uma empresa precisava de um sistema que pudesse computar pontos a cada compra feita. E é disto que essa API se trata!</p>
 </br></br>
 
 ## O que você encontrará nesta API?
 ✅Princípios do Solid: 🔹Single responsibility, 🔹Dependency inversion, 🔹Liskov substitution.
 
-✅Autenticação de usuário, ✅Refresh Token,  🚧Testes, 🚧Documentação
+✅Autenticação de usuário, ✅Refresh Token, ✅CI/CD,  🚧Testes, 🚧Documentação
+
+</br>
 
 ### Documentação (Swagger):
 http://localhost:3333/api-docs/
 
+ou 
+
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Snap%20API&uri=https%3A%2F%2Fgithub.com%2Figoraraujocruz%2Fsnap_app%2Fblob%2Fmain%2FInsomnia_2022-10-26.json)
+
+
+
+</br>
 
 ### Pré-Requisitos
 
@@ -37,9 +46,6 @@ http://localhost:3333/api-docs/
 ```
 </br>
 
-[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Snap%20API&uri=https%3A%2F%2Fgithub.com%2Figoraraujocruz%2Fsnap_app%2Fblob%2Fmain%2FInsomnia_2022-10-26.json)
-
-</br>
 
 ## Author
 ---
@@ -55,5 +61,4 @@ Done with a lot of dedication and passion by Igor Araujo Cruz 👋🏽
 Contact
 
 [<img src="https://img.shields.io/badge/linkedin-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white" />](https://www.linkedin.com/in/igor-araujo-cruz-84a89111b/)
-[<img src = "https://img.shields.io/badge/instagram-%23E4405F.svg?&style=for-the-badge&logo=instagram&logoColor=white">](https://www.instagram.com/igoraraujocruzz/)
 [![Gmail Badge](https://img.shields.io/badge/-Gmail-c14438?style=for-the-badge&logo=Gmail&logoColor=white&link=mailto:seu_email)](mailto:igoraraujocruzz@gmail.com)
