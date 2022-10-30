@@ -3,7 +3,7 @@
 </br></br>
 
 ## O que você encontrará nesta API?
-✅Princípios do Solid: 🔹Single responsibility, 🔹Dependency inversion, 🔹Liskov substitution.
+✅Princípios do Solid: 🔹Single responsibility, 🔹Open-Closed, 🔹Liskov substitution, 🔹Interface Segregation, 🔹Dependency inversion
 
 ✅Autenticação de usuário, ✅Refresh Token, ✅CI/CD,  🚧Testes, 🚧Documentação
 
