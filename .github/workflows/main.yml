@@ -32,7 +32,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           KEY: ${{ secrets.SSH_KEY }}
           source: "., !node_modules"
-          target: "~/app/snap_app"
+          target: "~/snap_app"
 
       - name: Update API
         uses: appleboy/ssh-action@master
@@ -42,7 +42,7 @@ jobs:
          port: ${{ secrets.SSH_PORT }}
          KEY: ${{ secrets.SSH_KEY }}
          script: |
-            cd ~/app/snap_app
+            cd ~/snap-backend
             yarn
             ./node_modules/.bin/typeorm migration:run
-            pm2 restart snap-api
+            pm2 restart zaycon
