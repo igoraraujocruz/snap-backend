@@ -32,7 +32,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           KEY: ${{ secrets.SSH_KEY }}
           source: "., !node_modules"
-          target: "~/snap_app"
+          target: "~/snap-backend"
 
       - name: Update API
         uses: appleboy/ssh-action@master
