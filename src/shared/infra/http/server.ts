@@ -15,14 +15,9 @@ import { rateLimiter } from '@shared/infra/http/middlewares/rateLimiter';
 import swaggerUI from 'swagger-ui-express';
 import * as swaggerDocument from '@shared/infra/swagger/swagger.json';
 
-const url =
-    process.env.NODE_ENV === 'dev'
-        ? process.env.WEB_DEV_URL
-        : process.env.WEB_PROD_URL;
-
 const app = express();
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-app.use(rateLimiter);
+//app.use(rateLimiter);
 
 Sentry.init({
     dsn: process.env.SENTRY_DSN,
@@ -40,7 +35,7 @@ app.use(express.json());
 app.use('/files', express.static(uploadConfig.uploadsFolder));
 app.use(
     cors({
-        origin: url,
+        origin: [String(process.env.WEB_DEV_URL), String(process.env.WEB_PROD_URL)],
     }),
 );
 app.use(routes);
