@@ -15,7 +15,8 @@ export class UsersController {
         request: Request,
         response: Response,
     ): Promise<Response> {
-        const { name, username, password, email, mobilePhone, permissions } = request.body;
+        const { name, username, password, email, mobilePhone, permissions } =
+            request.body;
 
         const createUser = container.resolve(CreateUserService);
 
@@ -25,7 +26,7 @@ export class UsersController {
             password,
             email,
             mobilePhone,
-            permissions
+            permissions,
         });
 
         return response.status(200).json(classToClass(user));
@@ -76,26 +77,30 @@ export class UsersController {
         const { id } = request.params;
         const { permissions } = request.body;
 
-        const updateUserPermission = container.resolve(UpdateUserPermissionService);
+        const updateUserPermission = container.resolve(
+            UpdateUserPermissionService,
+        );
 
         const userPermissionUpdated = await updateUserPermission.execute({
             id,
-            permissions
+            permissions,
         });
 
         return response.json(classToClass(userPermissionUpdated));
     }
 
-    public async getUsers(request: Request, response: Response): Promise<Response> {
-        const { userId, option, page, usersPerPage } = request.query
+    public async getUsers(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
+        const { userId, option, page, usersPerPage } = request.query;
 
-        if(userId) {
+        if (userId) {
             const findUser = container.resolve(GetUserByUserIdService);
 
             const user = await findUser.execute(String(userId));
 
             return response.json(classToClass(user));
-
         }
 
         if (option) {
@@ -108,13 +113,19 @@ export class UsersController {
 
         const findUsers = container.resolve(GetAllUsersService);
 
-        const users = await findUsers.execute(Number(page), Number(usersPerPage));
+        const users = await findUsers.execute(
+            Number(page),
+            Number(usersPerPage),
+        );
 
         return response.json(classToClass(users));
     }
 
-    public async getMyUser(request: Request, response: Response): Promise<Response> {
-        const { id } = request.user
+    public async getMyUser(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
+        const { id } = request.user;
 
         const findUser = container.resolve(GetMyUserService);
 

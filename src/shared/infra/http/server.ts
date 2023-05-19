@@ -17,25 +17,28 @@ import * as swaggerDocument from '@shared/infra/swagger/swagger.json';
 
 const app = express();
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-//app.use(rateLimiter);
+app.use(rateLimiter);
 
-Sentry.init({
-    dsn: process.env.SENTRY_DSN,
-    integrations: [
-        new Sentry.Integrations.Http({ tracing: true }),
-        new Tracing.Integrations.Express({ app }),
-    ],
-    tracesSampleRate: 1.0,
-});
+// Sentry.init({
+//     dsn: process.env.SENTRY_DSN,
+//     integrations: [
+//         new Sentry.Integrations.Http({ tracing: true }),
+//         new Tracing.Integrations.Express({ app }),
+//     ],
+//     tracesSampleRate: 1.0,
+// });
 
-app.use(Sentry.Handlers.requestHandler());
-app.use(Sentry.Handlers.tracingHandler());
+// app.use(Sentry.Handlers.requestHandler());
+// app.use(Sentry.Handlers.tracingHandler());
 
 app.use(express.json());
 app.use('/files', express.static(uploadConfig.uploadsFolder));
 app.use(
     cors({
-        origin: [String(process.env.WEB_DEV_URL), String(process.env.WEB_PROD_URL)],
+        origin: [
+            String(process.env.WEB_DEV_URL),
+            String(process.env.WEB_PROD_URL),
+        ],
     }),
 );
 app.use(routes);

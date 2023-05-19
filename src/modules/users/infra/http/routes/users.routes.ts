@@ -9,8 +9,8 @@ const usersController = new UsersController();
 
 usersRouter.post(
     '/',
-    //ensureAuthenticated,
-    //can(['Cadastrar Usuario']),
+    // ensureAuthenticated,
+    // can(['Cadastrar Usuario']),
     celebrate({
         [Segments.BODY]: {
             name: Joi.string().required(),
