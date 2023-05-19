@@ -1,4 +1,4 @@
-teste
+teste2
 <h1 align="center">Loja de Pontos</h1>
 <p align="center">Chegou até a mim que uma empresa precisava de um sistema que pudesse computar pontos a cada compra feita. E é disto que essa API se trata!</p>
 </br></br>
