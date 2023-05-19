@@ -45,4 +45,4 @@ jobs:
             cd ~/snap-backend
             yarn
             ./node_modules/.bin/typeorm migration:run
-            pm2 restart zaycon
+            pm2 restart snap
