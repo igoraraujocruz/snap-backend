@@ -1,6 +1,6 @@
 export interface CreateClientDTO {
     name: string;
-    cpf: string;
+    neighborhood: string;
     birthday: Date;
     email: string;
     mobilePhone: string;

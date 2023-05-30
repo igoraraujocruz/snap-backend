@@ -12,7 +12,7 @@ clientsRouter.post(
     celebrate({
         [Segments.BODY]: {
             name: Joi.string().required(),
-            cpf: Joi.string().required().max(11).min(11),
+            neighborhood: Joi.string().required(),
             email: Joi.string().email().required(),
             birthday: Joi.date().required(),
             mobilePhone: Joi.string().max(11).min(11).required(),
@@ -43,7 +43,7 @@ clientsRouter.put(
         },
         [Segments.BODY]: {
             name: Joi.string(),
-            cpf: Joi.string(),
+            neighborhood: Joi.string(),
             email: Joi.string().email(),
             birthday: Joi.date(),
             mobilePhone: Joi.string().max(13),

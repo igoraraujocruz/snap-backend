@@ -18,10 +18,14 @@ export class ClientsTable1647268717022 implements MigrationInterface {
                         type: 'varchar',
                     },
                     {
+                        name: 'neighborhood',
+                        type: 'varchar',
+                    },
+                    {
                         name: 'points',
                         type: 'int',
                         generationStrategy: 'increment',
-                        default: 0
+                        default: 0,
                     },
                     {
                         name: 'birthday',
@@ -33,10 +37,6 @@ export class ClientsTable1647268717022 implements MigrationInterface {
                     },
                     {
                         name: 'mobilePhone',
-                        type: 'varchar',
-                    },
-                    {
-                        name: 'cpf',
                         type: 'varchar',
                     },
                     {

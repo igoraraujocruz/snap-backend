@@ -17,7 +17,7 @@ export class UpdateClientService {
         email,
         birthday,
         mobilePhone,
-        cpf,
+        neighborhood,
     }: UpdateClientDTO): Promise<Client> {
         const client = await this.clientsRepository.findById(id);
 
@@ -33,12 +33,6 @@ export class UpdateClientService {
             throw new AppError('E-mail is already in use');
         }
 
-        const cpfExist = await this.clientsRepository.findByCpf(cpf);
-
-        if (cpfExist) {
-            throw new AppError('Cpf is already in use');
-        }
-
         const clientPhoneExist = await this.clientsRepository.findByMobilePhone(
             mobilePhone,
         );
@@ -52,7 +46,7 @@ export class UpdateClientService {
 
         client.mobilePhone = mobilePhone;
         client.birthday = birthday;
-        client.cpf = cpf;
+        client.neighborhood = neighborhood;
 
         return this.clientsRepository.save(client);
     }

@@ -13,13 +13,14 @@ export class ClientsController {
         request: Request,
         response: Response,
     ): Promise<Response> {
-        const { name, cpf, email, mobilePhone, birthday } = request.body;
+        const { name, neighborhood, email, mobilePhone, birthday } =
+            request.body;
 
         const createClient = container.resolve(CreateClientService);
 
         const client = await createClient.execute({
             name,
-            cpf,
+            neighborhood,
             birthday,
             email,
             mobilePhone,
@@ -50,14 +51,15 @@ export class ClientsController {
         response: Response,
     ): Promise<Response> {
         const { id } = request.params;
-        const { name, cpf, email, mobilePhone, birthday } = request.body;
+        const { name, neighborhood, email, mobilePhone, birthday } =
+            request.body;
 
         const updateClient = container.resolve(UpdateClientService);
 
         const clientUpdated = await updateClient.execute({
             id,
             name,
-            cpf,
+            neighborhood,
             email,
             mobilePhone,
             birthday,
@@ -67,7 +69,7 @@ export class ClientsController {
     }
 
     public async get(request: Request, response: Response): Promise<Response> {
-        const { clientId, option,  page, clientsPerPage } = request.query;
+        const { clientId, option, page, clientsPerPage } = request.query;
 
         if (clientId) {
             const findClient = container.resolve(GetClientService);
@@ -87,7 +89,10 @@ export class ClientsController {
 
         const findClients = container.resolve(GetAllClientsService);
 
-        const clients = await findClients.execute(Number(page), Number(clientsPerPage));
+        const clients = await findClients.execute(
+            Number(page),
+            Number(clientsPerPage),
+        );
 
         return response.json(classToClass(clients));
     }

@@ -7,11 +7,14 @@ export interface IClientsRepository {
     findByMobilePhone(mobilePhone: string): Promise<Client | undefined>;
     findByCpf(cpf: string): Promise<Client | undefined>;
     addPoints({ points, id }: Pick<Client, 'points' | 'id'>): Promise<void>;
-    decreasePoints({ points, id }: Pick<Client, 'points' | 'id'>): Promise<void>;
+    decreasePoints({
+        points,
+        id,
+    }: Pick<Client, 'points' | 'id'>): Promise<void>;
     findAllByName(name: string): Promise<Client[]>;
     findById(clientId: string): Promise<Client | undefined>;
     save(client: Client): Promise<Client>;
     delete(clientId: string): Promise<void>;
-    findAll(page?: number, clientsPerPage?: number): Promise<Client[]>
+    findAll(page?: number, clientsPerPage?: number): Promise<Client[]>;
     create(client: CreateClientDTO): Promise<Client>;
 }

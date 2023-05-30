@@ -19,7 +19,7 @@ export class Client {
     name: string;
 
     @Column()
-    cpf: string;
+    neighborhood: string;
 
     @Column()
     points: number;

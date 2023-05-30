@@ -16,15 +16,13 @@ export class CreateClientService {
         email,
         mobilePhone,
         birthday,
-        cpf,
+        neighborhood,
     }: CreateClientDTO): Promise<Client> {
         const emailExist = await this.clientsRepository.findByEmail(email);
 
         const mobilePhoneExist = await this.clientsRepository.findByMobilePhone(
             mobilePhone,
         );
-
-        const cpfExist = await this.clientsRepository.findByCpf(cpf);
 
         if (emailExist) {
             throw new AppError('This email already exist');
@@ -34,16 +32,12 @@ export class CreateClientService {
             throw new AppError('This mobile Phone already exist');
         }
 
-        if (cpfExist) {
-            throw new AppError('This cpf already exist');
-        }
-
         const user = await this.clientsRepository.create({
             name,
             email,
             mobilePhone,
             birthday,
-            cpf,
+            neighborhood,
         });
 
         return user;

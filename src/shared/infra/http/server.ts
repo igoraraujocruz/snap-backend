@@ -17,7 +17,7 @@ import * as swaggerDocument from '@shared/infra/swagger/swagger.json';
 
 const app = express();
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-app.use(rateLimiter);
+// app.use(rateLimiter);
 
 // Sentry.init({
 //     dsn: process.env.SENTRY_DSN,
@@ -43,7 +43,7 @@ app.use(
 );
 app.use(routes);
 
-app.use(Sentry.Handlers.errorHandler());
+// app.use(Sentry.Handlers.errorHandler());
 
 app.use((error: Error, _: Request, response: Response, __: NextFunction) => {
     if (error instanceof AppError) {
