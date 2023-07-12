@@ -3,12 +3,11 @@ import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 
 @EntityRepository(User)
-export class UsersRepository implements IUsersRepository
-{
+export class UsersRepository implements IUsersRepository {
     private ormRepository: Repository<User>;
 
     constructor() {
-        this.ormRepository = getRepository(User);;
+        this.ormRepository = getRepository(User);
     }
 
     async create(user: User): Promise<User> {
@@ -21,10 +20,13 @@ export class UsersRepository implements IUsersRepository
 
     async findById(userId: string): Promise<User | undefined> {
         const user = await this.ormRepository.findOne({
+            order: {
+                createdAt: 'ASC',
+            },
             where: {
-                id: userId
-            }
-        })
+                id: userId,
+            },
+        });
 
         return user;
     }
@@ -40,7 +42,7 @@ export class UsersRepository implements IUsersRepository
     async findAll(page: number, usersPerPage: number): Promise<User[]> {
         const users = await this.ormRepository.find({
             take: usersPerPage,
-            skip: (page - 1) * usersPerPage
+            skip: (page - 1) * usersPerPage,
         });
 
         return users;
@@ -55,17 +57,21 @@ export class UsersRepository implements IUsersRepository
     }
 
     async findByName(option: string): Promise<User[]> {
-        const users = this.ormRepository.createQueryBuilder('user')
-        .where('LOWER(user.name) = LOWER(:name)', { name: option})
-        .getMany();
+        const users = this.ormRepository
+            .createQueryBuilder('user')
+            .where('LOWER(user.name) = LOWER(:name)', { name: option })
+            .getMany();
 
         return users;
     }
 
     async findAllUsersByUsername(option: string): Promise<User[]> {
-        const users = this.ormRepository.createQueryBuilder('user')
-        .where('LOWER(user.username) = LOWER(:username)', { username: option })
-        .getMany();
+        const users = this.ormRepository
+            .createQueryBuilder('user')
+            .where('LOWER(user.username) = LOWER(:username)', {
+                username: option,
+            })
+            .getMany();
 
         return users;
     }
@@ -77,11 +83,8 @@ export class UsersRepository implements IUsersRepository
 
         return user;
     }
-    
 
-    async findByMobilePhone(
-        mobilePhone: string,
-    ): Promise<User | undefined> {
+    async findByMobilePhone(mobilePhone: string): Promise<User | undefined> {
         const item = await this.ormRepository.findOne({
             where: { mobilePhone },
         });

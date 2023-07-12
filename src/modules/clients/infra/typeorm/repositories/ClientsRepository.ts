@@ -63,6 +63,9 @@ export class ClientsRepository implements IClientsRepository {
         const clients = await this.ormRepository.find({
             take: clientsPerPage,
             skip: (page - 1) * clientsPerPage,
+            order: {
+                createdAt: 'ASC',
+            },
         });
 
         return clients;
