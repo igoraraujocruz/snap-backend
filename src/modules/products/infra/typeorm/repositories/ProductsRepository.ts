@@ -19,14 +19,15 @@ export class ProductsRepository implements IProductsRepository {
     }
 
     async findAll(page: number, perPage: number): Promise<Product[]> {
-
         const products = await this.ormRepository.find({
             take: perPage,
-            skip: (page - 1) * perPage
+            skip: (page - 1) * perPage,
+            order: {
+                createdAt: 'ASC',
+            },
         });
 
-        return products
-    
+        return products;
     }
 
     public async findByName(name: string): Promise<Product | undefined> {
@@ -43,7 +44,7 @@ export class ProductsRepository implements IProductsRepository {
         });
 
         return item;
-    }    
+    }
 
     public async findBySlug(slug: string): Promise<Product | undefined> {
         const product = this.ormRepository.findOne({
@@ -55,11 +56,11 @@ export class ProductsRepository implements IProductsRepository {
 
     public async findAllByName(name: string): Promise<Product[]> {
         const item = this.ormRepository
-        .createQueryBuilder('product')
-        .leftJoinAndSelect('product.photos', 'photos')
-        .leftJoinAndSelect('product.user', 'user')
-        .where('LOWER(product.name) = LOWER(:name)', { name })
-        .getMany();
+            .createQueryBuilder('product')
+            .leftJoinAndSelect('product.photos', 'photos')
+            .leftJoinAndSelect('product.user', 'user')
+            .where('LOWER(product.name) = LOWER(:name)', { name })
+            .getMany();
 
         return item;
     }

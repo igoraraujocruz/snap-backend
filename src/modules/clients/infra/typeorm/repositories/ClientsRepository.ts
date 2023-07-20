@@ -3,6 +3,7 @@ import { IClientsRepository } from '@modules/clients/repositories/IClientsReposi
 import { Client } from '@modules/clients/infra/typeorm/entities/Client';
 import { AppError } from '@shared/errors/AppError';
 import { CreateClientDTO } from '@modules/clients/dtos/CreateClientDTO';
+import { AllClientsDTO } from '@modules/clients/dtos/AllClientsDTO';
 
 export class ClientsRepository implements IClientsRepository {
     private ormRepository: Repository<Client>;
@@ -59,13 +60,32 @@ export class ClientsRepository implements IClientsRepository {
         return item;
     }
 
-    async findAll(page: number, clientsPerPage: number): Promise<Client[]> {
-        const clients = await this.ormRepository.find({
-            take: clientsPerPage,
-            skip: (page - 1) * clientsPerPage,
-        });
+    async findAll(
+        page: number,
+        clientsPerPage: number,
+    ): Promise<AllClientsDTO> {
+        const clients = await this.ormRepository.query(
+            `
+            SELECT * FROM (
+                Select * From clients
+                Where Extract(DAY From birthday) >= Extract(DAY From Now())
+                AND Extract(MONTH From birthday) >= Extract(MONTH From Now())
+                OR Extract(DAY From birthday) <= Extract(DAY From Now()) AND Extract(MONTH From birthday) > Extract(MONTH From Now())
+                ORDER BY Extract(MONTH From birthday), Extract(DAY From birthday) ASC
+                ) as aniversariosAfazer UNION ALL SELECT * FROM (
+                Select * from clients where Extract(MONTH From birthday) <= Extract(MONTH From Now()) AND
+                Extract(DAY From birthday) < Extract(DAY From Now()) OR
+                Extract(MONTH From birthday) < Extract(MONTH From Now())
+                ORDER BY Extract(MONTH From birthday), Extract(DAY From birthday) ASC
+                ) AS aniversariosFeitos LIMIT ${clientsPerPage} OFFSET (${
+                page - 1
+            }) *  ${clientsPerPage};
+            `,
+        );
 
-        return clients;
+        const totalClients = await this.ormRepository.count();
+
+        return { totalClients, clients };
     }
 
     async save(client: Client): Promise<Client> {
