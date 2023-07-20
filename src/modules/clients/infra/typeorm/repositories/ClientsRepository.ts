@@ -3,6 +3,7 @@ import { IClientsRepository } from '@modules/clients/repositories/IClientsReposi
 import { Client } from '@modules/clients/infra/typeorm/entities/Client';
 import { AppError } from '@shared/errors/AppError';
 import { CreateClientDTO } from '@modules/clients/dtos/CreateClientDTO';
+import { AllClientsDTO } from '@modules/clients/dtos/AllClientsDTO';
 
 export class ClientsRepository implements IClientsRepository {
     private ormRepository: Repository<Client>;
@@ -59,7 +60,10 @@ export class ClientsRepository implements IClientsRepository {
         return item;
     }
 
-    async findAll(page: number, clientsPerPage: number): Promise<Client[]> {
+    async findAll(
+        page: number,
+        clientsPerPage: number,
+    ): Promise<AllClientsDTO> {
         const clients = await this.ormRepository.query(
             `
             SELECT * FROM (
@@ -79,7 +83,9 @@ export class ClientsRepository implements IClientsRepository {
             `,
         );
 
-        return clients;
+        const totalClients = await this.ormRepository.count();
+
+        return { totalClients, clients };
     }
 
     async save(client: Client): Promise<Client> {
